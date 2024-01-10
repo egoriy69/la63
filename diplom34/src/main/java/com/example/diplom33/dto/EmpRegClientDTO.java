@@ -21,8 +21,6 @@ public class EmpRegClientDTO {
 
     private String email;
 
-
-
     private String role;
 
 }
