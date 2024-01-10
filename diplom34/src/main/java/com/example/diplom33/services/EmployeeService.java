@@ -1,7 +1,6 @@
 package com.example.diplom33.services;
 
 import com.example.diplom33.dto.EmpRegClientDTO;
-import com.example.diplom33.models.Role;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
@@ -17,10 +16,13 @@ public class EmployeeService {
     private final UserRepository userRepository;
     public void createUser(EmpRegClientDTO empRegClientDTO){
         User user = new User();
-        user.setFirstname(empRegClientDTO.getFirstname());
-        user.setLastname(empRegClientDTO.getLastname());
+        user.setFirstname(empRegClientDTO.getFirstName());
+        user.setLastname(empRegClientDTO.getLastName());
         user.setPatronymic(empRegClientDTO.getPatronymic());
+        user.setBirth(empRegClientDTO.getBirth());
         user.setPhone(empRegClientDTO.getPhone());
+        user.setPassport(empRegClientDTO.getPassport());
+        user.setEmail(empRegClientDTO.getEmail());
         user.setRoles(Collections.singletonList(roleRepository.findByName(empRegClientDTO.getRole()).get()));
         userRepository.save(user);
     }
