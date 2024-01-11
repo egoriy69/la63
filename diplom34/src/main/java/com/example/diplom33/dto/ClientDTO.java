@@ -1,5 +1,8 @@
 package com.example.diplom33.dto;
 
+import com.example.diplom33.validations.annotations.UniqueEmail;
+import com.example.diplom33.validations.annotations.UniquePhone;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.Date;
@@ -7,17 +10,27 @@ import java.util.Date;
 @Data
 public class ClientDTO {
 
-    private String firstname;
+    @NotBlank(message = "поле не может быть пустым")
+    private String firstName;
 
-    private String lastname;
+    @NotBlank(message = "поле не может быть пустым")
+    private String lastName;
 
     private String patronymic;
 
-    private String email;
-
     private Date birth;
 
+    @NotBlank(message = "поле не может быть пустым")
+    @UniquePhone
     private String phone;
 
+    private String passport;
+
+    @UniqueEmail
+    private String email;
+
+    private String role;
+
+    private String comment;
 
 }

@@ -1,6 +1,6 @@
 package com.example.diplom33.services;
 
-import com.example.diplom33.dto.EmpRegClientDTO;
+import com.example.diplom33.dto.ClientDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.User;
@@ -11,7 +11,6 @@ import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,7 +21,7 @@ public class EmployeeService {
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
 
-    public void createUser(EmpRegClientDTO empRegClientDTO) {
+    public void createUser(ClientDTO empRegClientDTO) {
         User user = new User();
         user.setFirstName(empRegClientDTO.getFirstName());
         user.setLastName(empRegClientDTO.getLastName());
@@ -36,7 +35,7 @@ public class EmployeeService {
 
     }
 
-    private void createUserByRole(User user, EmpRegClientDTO empRegClientDTO) {
+    private void createUserByRole(User user, ClientDTO empRegClientDTO) {
         if (empRegClientDTO.getRole() == null) {
             Client client = new Client();
             client.setUser(user);

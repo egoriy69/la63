@@ -1,10 +1,9 @@
 package com.example.diplom33.controllers.adminControllers;
 
 
+
 import com.example.diplom33.dto.ClientDTO;
-import com.example.diplom33.dto.EmpRegClientDTO;
 import com.example.diplom33.dto.UserDTO;
-import com.example.diplom33.models.User;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
 import lombok.AllArgsConstructor;
@@ -30,12 +29,12 @@ public class EmployeeClientsController {
     }
 
     @PatchMapping("/{id}")
-    public void updateClient(@RequestBody EmpRegClientDTO empRegClientDTO, @PathVariable int id) {
+    public void updateClient(@RequestBody ClientDTO empRegClientDTO, @PathVariable int id) {
         userService.update(empRegClientDTO, id);
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody EmpRegClientDTO empRegClientDTO){
+    public void createClient(@RequestBody ClientDTO empRegClientDTO){
         employeeService.createUser(empRegClientDTO);
     }
 

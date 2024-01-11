@@ -1,12 +1,9 @@
 package com.example.diplom33.controllers.adminControllers;
 
-import com.example.diplom33.dto.EmpRegClientDTO;
 import com.example.diplom33.dto.UserDTO;
-import com.example.diplom33.models.User;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

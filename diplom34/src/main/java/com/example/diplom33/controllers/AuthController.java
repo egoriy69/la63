@@ -40,18 +40,6 @@ public class AuthController {
 
     private final RefreshTokenService refreshTokenService;
 
-    @GetMapping
-    public String hello(){
-        return "hello";
-    }
-
-//    @PostMapping("/map")
-//    public String map(@RequestBody SampleObject sampleObject) {
-//        return sampleObject.b+sampleObject.c;
-//    }
-
-
-
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody JwtRequest jwtRequest) {
         try {
