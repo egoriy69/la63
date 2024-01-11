@@ -34,8 +34,8 @@ public class UserService {
     public ClientDTO getClient(long id) {
         ClientDTO clientDTO = new ClientDTO();
         Optional<User> user = userRepository.findById(id);
-        clientDTO.setFirstname(user.get().getFirstname());
-        clientDTO.setLastname(user.get().getLastname());
+        clientDTO.setFirstname(user.get().getFirstName());
+        clientDTO.setLastname(user.get().getLastName());
         clientDTO.setPatronymic(user.get().getPatronymic());
         clientDTO.setEmail(user.get().getEmail());
         clientDTO.setBirth(user.get().getBirth());
@@ -49,8 +49,9 @@ public class UserService {
         user.setId(id);
         userRepository.save(user);
     }
+
     @Transactional
-    public void delete(long id){
+    public void delete(long id) {
         userRepository.delete(userRepository.findById(id).get());
     }
 }

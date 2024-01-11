@@ -23,8 +23,8 @@ public class EmployeeService {
 
     public void createUser(EmpRegClientDTO empRegClientDTO){
         User user = new User();
-        user.setFirstname(empRegClientDTO.getFirstName());
-        user.setLastname(empRegClientDTO.getLastName());
+        user.setFirstName(empRegClientDTO.getFirstName());
+        user.setLastName(empRegClientDTO.getLastName());
         user.setPatronymic(empRegClientDTO.getPatronymic());
         user.setBirth(empRegClientDTO.getBirth());
         user.setPhone(empRegClientDTO.getPhone());

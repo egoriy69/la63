@@ -1,14 +1,15 @@
 package com.example.diplom33.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Collection;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -19,14 +20,12 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-//    @Column(name = "username")
-//    private String username;
 
     @Column(name = "firstname")
-    private String firstname;
+    private String firstName;
 
     @Column(name = "lastname")
-    private String lastname;
+    private String lastName;
 
     @Column(name = "patronymic")
     private String patronymic;
@@ -55,13 +54,6 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-//    @ManyToOne
-//    @JoinColumn(name = "role_id", referencedColumnName = "id")
-//    private Role role;
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
 
     @ManyToMany
     @JoinTable(
@@ -70,4 +62,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        User user = (User) obj;
+        return Objects.equals(phone, user.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(phone);
+    }
 }
