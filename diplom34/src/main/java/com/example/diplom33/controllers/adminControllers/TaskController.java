@@ -22,9 +22,9 @@ public class TaskController {
         return taskService.getAllTasksForUser(principal);
     }
 
-    @GetMapping("/id")
-    public Task getTask(@PathVariable long id){
-        return null;
+    @GetMapping("/{id}")
+    public TaskDTO getTask(@PathVariable long id){
+        return taskService.getTask(id);
     }
 
     @PostMapping("/new")
