@@ -1,13 +1,10 @@
 package com.example.diplom33.controllers.adminControllers;
 
+import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.services.TaskService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -23,6 +20,17 @@ public class TaskController {
     @GetMapping
     public Optional<List<Task>> getAllTasksForUser(Principal principal) {
         return taskService.getAllTasksForUser(principal);
+    }
+
+    @GetMapping("/id")
+    public Task getTask(@PathVariable long id){
+        return null;
+    }
+
+    @PostMapping("/new")
+    public void createTask(@RequestBody TaskDTO taskDTO){
+        taskService.createTask(taskDTO);
+
     }
 
 

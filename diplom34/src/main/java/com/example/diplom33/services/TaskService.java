@@ -1,5 +1,6 @@
 package com.example.diplom33.services;
 
+import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Role;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
@@ -22,15 +23,23 @@ public class TaskService {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
-    public Optional<List<Task>> getAllTasksForUser(Principal principal){
+    public Optional<List<Task>> getAllTasksForUser(Principal principal) {
         String phone = principal.getName();
         User user = userRepository.findByPhone(phone).orElse(null);
 
-        if(Objects.equals(user.getRoles().get(0).getName(), "ROLE_EMPLOYEE")){
+        if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_EMPLOYEE")) {
             return taskRepository.findByEmployee(user.getEmployee());
-        }
-        else {
+        } else {
             return Optional.of(taskRepository.findAll());
         }
+    }
+
+    @Transactional
+    public void createTask(TaskDTO taskDTO) {
+        Task task = new Task();
+        task.setName(taskDTO.getName());
+        task.setComment(taskDTO.getComment());
+        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
+        taskRepository.save(task);
     }
 }
