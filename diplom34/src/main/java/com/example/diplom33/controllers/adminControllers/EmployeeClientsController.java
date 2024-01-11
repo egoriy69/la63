@@ -26,7 +26,6 @@ public class EmployeeClientsController {
 
     @GetMapping("/{id}")
     public ClientDTO showClient(@PathVariable int id) {
-
         return userService.getClient(id);
     }
 
@@ -43,7 +42,6 @@ public class EmployeeClientsController {
     @DeleteMapping("/{id}")
     public void deleteClient(@PathVariable long id){
         userService.delete(id);
-
     }
 
 }
