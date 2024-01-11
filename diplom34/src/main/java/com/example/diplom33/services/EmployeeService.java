@@ -39,6 +39,7 @@ public class EmployeeService {
         if(empRegClientDTO.getRole().equals("ROLE_CLIENT")){
             Client client = new Client();
             client.setUser(user);
+            client.setComment(empRegClientDTO.getComment());
             userRepository.save(user);
             clientRepository.save(client);
         }

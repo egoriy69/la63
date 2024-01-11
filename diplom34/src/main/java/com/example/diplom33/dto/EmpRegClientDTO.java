@@ -31,4 +31,6 @@ public class EmpRegClientDTO {
 
     private String role;
 
+    private String comment;
+
 }

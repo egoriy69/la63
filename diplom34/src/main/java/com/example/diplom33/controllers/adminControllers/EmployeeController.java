@@ -26,15 +26,15 @@ public class EmployeeController {
         return userDTO;
     }
 
-    @PatchMapping("/{id}")
-    public void updateEmployee(@RequestBody User user, @PathVariable int id) {
-        userService.update(user, id);
-    }
-
-    @PostMapping("/new")
-    public void createEmployee(@RequestBody EmpRegClientDTO empRegClientDTO) {
-        employeeService.createUser(empRegClientDTO);
-    }
+//    @PatchMapping("/{id}")
+//    public void updateEmployee(@RequestBody User user, @PathVariable int id) {
+//        userService.update(user, id);
+//    }
+//
+//    @PostMapping("/new")
+//    public void createEmployee(@RequestBody EmpRegClientDTO empRegClientDTO) {
+//        employeeService.createUser(empRegClientDTO);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable long id) {
