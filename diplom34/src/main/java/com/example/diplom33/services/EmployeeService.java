@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +22,7 @@ public class EmployeeService {
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
 
-    public void createUser(EmpRegClientDTO empRegClientDTO){
+    public void createUser(EmpRegClientDTO empRegClientDTO) {
         User user = new User();
         user.setFirstName(empRegClientDTO.getFirstName());
         user.setLastName(empRegClientDTO.getLastName());
@@ -30,24 +31,24 @@ public class EmployeeService {
         user.setPhone(empRegClientDTO.getPhone());
         user.setPassport(empRegClientDTO.getPassport());
         user.setEmail(empRegClientDTO.getEmail());
-        user.setRoles(Collections.singletonList(roleRepository.findByName(empRegClientDTO.getRole()).get()));
+//        user.setRoles(Collections.singletonList(roleRepository.findByName(empRegClientDTO.getRole()).get()));
         createUserByRole(user, empRegClientDTO);
 
     }
 
-    private void createUserByRole(User user, EmpRegClientDTO empRegClientDTO){
-        if(empRegClientDTO.getRole().equals("ROLE_CLIENT")){
+    private void createUserByRole(User user, EmpRegClientDTO empRegClientDTO) {
+        if (empRegClientDTO.getRole() == null) {
             Client client = new Client();
             client.setUser(user);
             client.setComment(empRegClientDTO.getComment());
+            user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
             userRepository.save(user);
             clientRepository.save(client);
-        }
-        else {
-           Employee employee = new Employee();
-           employee.setUser(user);
-           userRepository.save(user);
-           employeeRepository.save(employee);
+        } else {
+            Employee employee = new Employee();
+            employee.setUser(user);
+            userRepository.save(user);
+            employeeRepository.save(employee);
         }
     }
 
