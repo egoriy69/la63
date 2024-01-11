@@ -25,3 +25,7 @@ replay_pid*
 diplom34/src/main/resources/application.properties
 diplom34/src/main/resources/application.properties
 diplom34/target/classes/application.properties
+diplom34/target/classes/application.properties
+*.properties
+diplom34/src/main/resources/application.properties
+diplom34/src/main/resources/application.properties
