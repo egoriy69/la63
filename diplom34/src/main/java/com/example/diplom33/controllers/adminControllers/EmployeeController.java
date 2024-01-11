@@ -1,5 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
@@ -23,11 +24,11 @@ public class EmployeeController {
         return userDTO;
     }
 
-//    @PatchMapping("/{id}")
-//    public void updateEmployee(@RequestBody User user, @PathVariable int id) {
-//        userService.update(user, id);
-//    }
-//
+    @PatchMapping("/{id}")
+    public void updateEmployee(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
+        userService.update(userUpdateInfoDTO, id);
+    }
+
 //    @PostMapping("/new")
 //    public void createEmployee(@RequestBody EmpRegClientDTO empRegClientDTO) {
 //        employeeService.createUser(empRegClientDTO);

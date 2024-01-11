@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,11 +20,11 @@ public class Employee {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "task")
-    private String task;
-
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Task> tasks;
 }

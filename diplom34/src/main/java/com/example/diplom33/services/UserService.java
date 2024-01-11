@@ -2,7 +2,7 @@ package com.example.diplom33.services;
 
 
 
-import com.example.diplom33.dto.ClientDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.User;
@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -27,44 +28,34 @@ public class UserService {
     private final ClientRepository clientRepository;
 
     public List<UserDTO> getUserByRole(String name) {
-//
-//        return userRepository.findAll().stream()
-//                .filter(user -> user.getRoles().stream()
-//                        .anyMatch(role -> role.getName().equals(name))).map(user -> {
-//                    UserDTO userDTO = new UserDTO();
-//                    userDTO.setPhone(user.getPhone());
-//                    userDTO.setEmail(user.getEmail());
-//                    return userDTO;
-//                }).collect(Collectors.toList());
-
         return userRepository.findByRole(name);
-
     }
 
-    public ClientDTO getClient(long id) {
-        ClientDTO clientDTOO = new ClientDTO();
+    public UserUpdateInfoDTO getClient(long id) {
+        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
         Optional<User> user = userRepository.findById(id);
-        clientDTOO.setFirstName(user.get().getFirstName());
-        clientDTOO.setLastName(user.get().getLastName());
-        clientDTOO.setPatronymic(user.get().getPatronymic());
-        clientDTOO.setBirth(user.get().getBirth());
-        clientDTOO.setPhone(user.get().getPhone());
-        clientDTOO.setPassport(user.get().getPassport());
-        clientDTOO.setEmail(user.get().getEmail());
-        return clientDTOO;
+        userUpdateInfoDTO.setFirstName(user.get().getFirstName());
+        userUpdateInfoDTO.setLastName(user.get().getLastName());
+        userUpdateInfoDTO.setPatronymic(user.get().getPatronymic());
+        userUpdateInfoDTO.setBirth(user.get().getBirth());
+        userUpdateInfoDTO.setPhone(user.get().getPhone());
+        userUpdateInfoDTO.setPassport(user.get().getPassport());
+        userUpdateInfoDTO.setEmail(user.get().getEmail());
+        return userUpdateInfoDTO;
     }
 
 
     @Transactional
-    public void update(ClientDTO empRegClientDTO, long id) {
+    public void update(UserUpdateInfoDTO userUpdateInfoDTO, long id) {
         User user = userRepository.findByIdForUpdate(id);
-        Client client = clientRepository.findByUserIdForUpdate(id);
-        BeanUtils.copyProperties(empRegClientDTO, user, "id");
-        BeanUtils.copyProperties(empRegClientDTO, client, "id");
+        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
+        if(Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
+            Client client = clientRepository.findByUserIdForUpdate(id);
+            BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
+            clientRepository.save(client);
+        } else
         userRepository.save(user);
-        clientRepository.save(client);
-//        user.setId(id);
-//        userRepository.save(user);
+
     }
 
     @Transactional

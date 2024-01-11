@@ -2,7 +2,7 @@ package com.example.diplom33.controllers.adminControllers;
 
 
 
-import com.example.diplom33.dto.ClientDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
@@ -24,18 +24,18 @@ public class EmployeeClientsController {
     }
 
     @GetMapping("/{id}")
-    public ClientDTO showClient(@PathVariable int id) {
+    public UserUpdateInfoDTO showClient(@PathVariable int id) {
         return userService.getClient(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateClient(@RequestBody ClientDTO empRegClientDTO, @PathVariable int id) {
-        userService.update(empRegClientDTO, id);
+    public void updateClient(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
+        userService.update(userUpdateInfoDTO, id);
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody ClientDTO empRegClientDTO){
-        employeeService.createUser(empRegClientDTO);
+    public void createClient(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO){
+        employeeService.createUser(userUpdateInfoDTO);
     }
 
     @DeleteMapping("/{id}")
