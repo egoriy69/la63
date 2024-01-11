@@ -20,11 +20,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
 
+
     //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = ?1")
     User findByIdForUpdate(Long id);
 
-    Optional<User> findByPassword(String password);
+
 
     @Query("SELECT new com.example.diplom33.dto.UserDTO(u.phone, u.email) FROM User u JOIN u.roles r WHERE r.name = :roleName")
     List<UserDTO> findByRole(@Param("roleName") String roleName);

@@ -70,21 +70,6 @@ public class AuthController {
         return new ResponseEntity<>("пользователь вышел", HttpStatus.OK);
     }
 
-//    @PostMapping("/refreshToken")
-//    public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-//
-//        return refreshTokenService.findByToken(refreshTokenRequest.getRefreshToken())
-//                .map(refreshTokenService::verifyExpiration)
-//                .map(RefreshToken::getUser)
-//                .map(user -> {
-//                    String token = jwtUtil.generateToken(userDetailsService.loadUserByUsername(user.getPhone()));
-//                    return JwtResponse.builder()
-//                            .token(token)
-////                            .refreshToken(refreshTokenRequest.getRefreshToken())
-//                            .build();
-//                }).orElseThrow(() -> new NoSuchException("Нужна повторная авторизация"));
-//
-//    }
 
     @PostMapping("/refreshToken")
     public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {

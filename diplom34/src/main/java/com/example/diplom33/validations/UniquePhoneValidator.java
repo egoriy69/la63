@@ -15,6 +15,6 @@ public class UniquePhoneValidator implements ConstraintValidator<UniquePhone, St
     @Override
     public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
 
-        return userRepository.findByPhone(username).isEmpty() || userRepository.findByPhone(username).get().getEmail()==null;
+        return userRepository.findByPhone(username).isEmpty() || userRepository.findByPhone(username).get().getPassword()==null;
     }
 }
