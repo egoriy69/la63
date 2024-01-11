@@ -30,8 +30,8 @@ public class EmployeeClientsController {
     }
 
     @PatchMapping("/{id}")
-    public void updateClient(@RequestBody User user, @PathVariable int id) {
-        userService.update(user, id);
+    public void updateClient(@RequestBody EmpRegClientDTO empRegClientDTO, @PathVariable int id) {
+        userService.update(empRegClientDTO, id);
     }
 
     @PostMapping("/new")

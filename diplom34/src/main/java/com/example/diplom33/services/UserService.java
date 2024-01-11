@@ -2,11 +2,15 @@ package com.example.diplom33.services;
 
 
 import com.example.diplom33.dto.ClientDTO;
+import com.example.diplom33.dto.EmpRegClientDTO;
 import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.models.Client;
 import com.example.diplom33.models.User;
+import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.RefreshTokenRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final ClientRepository clientRepository;
 
     public List<UserDTO> getUserByRole(String name) {
         return userRepository.findAll().stream()
@@ -45,9 +50,15 @@ public class UserService {
 
 
     @Transactional
-    public void update(User user, long id) {
-        user.setId(id);
+    public void update(EmpRegClientDTO empRegClientDTO, long id) {
+        User user = userRepository.findByIdForUpdate(id);
+        Client client = clientRepository.findByUserIdForUpdate(id);
+        BeanUtils.copyProperties(empRegClientDTO, user, "id");
+        BeanUtils.copyProperties(empRegClientDTO, client, "id");
         userRepository.save(user);
+        clientRepository.save(client);
+//        user.setId(id);
+//        userRepository.save(user);
     }
 
     @Transactional
