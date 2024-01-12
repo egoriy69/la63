@@ -1,12 +1,16 @@
 package com.example.diplom33.services;
 
+import com.example.diplom33.dto.EmployeeDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
+import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
+import com.example.diplom33.repositories.EmployeeRepository;
 import com.example.diplom33.repositories.TaskRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +18,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +27,7 @@ public class TaskService {
 
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
+    private final EmployeeRepository employeeRepository;
 
     public Optional<List<Task>> getAllTasksForUser(Principal principal) {
         String phone = principal.getName();
@@ -53,4 +59,21 @@ public class TaskService {
         getTaskDTO.setPatronymic(task.get().getEmployee().getUser().getPatronymic());
         return getTaskDTO;
     }
+
+    @Transactional
+    public void update(GetTaskDTO getTaskDTO, long id) {
+        Task task = taskRepository.findById(id).get();
+        BeanUtils.copyProperties(getTaskDTO, task, "id");
+//        task.setEmployee(userRepository.fi);
+        taskRepository.save(task);
+    }
+
+    public List<EmployeeDTO> getFullNameEmployee() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(employee -> new EmployeeDTO(employee.getId(), employee.getUser().getFirstName(), employee.getUser().getLastName(), employee.getUser().getPatronymic()))
+                .collect(Collectors.toList());
+    }
+
+
 }

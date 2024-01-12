@@ -20,6 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
 
+    Optional<User> findByFirstName(String name);
 
     //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = ?1")

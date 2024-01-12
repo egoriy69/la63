@@ -1,5 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
+import com.example.diplom33.dto.EmployeeDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
@@ -28,10 +29,20 @@ public class TaskController {
         return taskService.getTask(id);
     }
 
+    @PatchMapping("/{id}")
+    public void updateTask(@RequestBody GetTaskDTO getTaskDTO, long id){
+        taskService.update(getTaskDTO, id);
+    }
+
     @PostMapping("/new")
     public void createTask(@RequestBody TaskDTO taskDTO){
         taskService.createTask(taskDTO);
 
+    }
+
+    @GetMapping("/fullName")
+    public List<EmployeeDTO> getFullNameEmployee(){
+        return taskService.getFullNameEmployee();
     }
 
 

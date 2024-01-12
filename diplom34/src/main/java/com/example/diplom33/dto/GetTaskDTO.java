@@ -15,4 +15,5 @@ public class GetTaskDTO {
     private String lastName;
 
     private String patronymic;
+
 }
