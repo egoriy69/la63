@@ -45,7 +45,8 @@ public class TaskService {
         Task task = new Task();
         task.setName(taskDTO.getName());
         task.setComment(taskDTO.getComment());
-        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
+//        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
+        task.setEmployee(employeeRepository.findById(taskDTO.getEmployeeId()).get());
         taskRepository.save(task);
     }
 
@@ -68,12 +69,7 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public List<EmployeeDTO> getFullNameEmployee() {
-        List<Employee> employees = employeeRepository.findAll();
-        return employees.stream()
-                .map(employee -> new EmployeeDTO(employee.getId(), employee.getUser().getFirstName(), employee.getUser().getLastName(), employee.getUser().getPatronymic()))
-                .collect(Collectors.toList());
-    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.diplom33.services;
 
+import com.example.diplom33.dto.EmployeeDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Employee;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,4 +55,10 @@ public class EmployeeService {
         }
     }
 
+    public List<EmployeeDTO> getFullNameEmployee() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(employee -> new EmployeeDTO(employee.getId(), employee.getUser().getFirstName(), employee.getUser().getLastName(), employee.getUser().getPatronymic()))
+                .collect(Collectors.toList());
+    }
 }

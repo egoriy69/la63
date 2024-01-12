@@ -4,6 +4,7 @@ import com.example.diplom33.dto.EmployeeDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
+import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+    private final EmployeeService employeeService;
 
     @GetMapping
     public Optional<List<Task>> getAllTasksForUser(Principal principal) {
@@ -42,7 +44,7 @@ public class TaskController {
 
     @GetMapping("/fullName")
     public List<EmployeeDTO> getFullNameEmployee(){
-        return taskService.getFullNameEmployee();
+        return employeeService.getFullNameEmployee();
     }
 
 
