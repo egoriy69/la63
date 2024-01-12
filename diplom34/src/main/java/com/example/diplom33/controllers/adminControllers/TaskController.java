@@ -1,5 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
+import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.services.TaskService;
@@ -23,7 +24,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public TaskDTO getTask(@PathVariable long id){
+    public GetTaskDTO getTask(@PathVariable long id){
         return taskService.getTask(id);
     }
 

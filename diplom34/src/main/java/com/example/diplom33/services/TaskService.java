@@ -1,5 +1,6 @@
 package com.example.diplom33.services;
 
+import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
@@ -42,12 +43,14 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public TaskDTO getTask(long id){
-        TaskDTO taskDTO = new TaskDTO();
+    public GetTaskDTO getTask(long id) {
+        GetTaskDTO getTaskDTO = new GetTaskDTO();
         Optional<Task> task = taskRepository.findById(id);
-        taskDTO.setComment(task.get().getComment());
-        taskDTO.setName(task.get().getName());
-        taskDTO.setEmployeeId(task.get().getEmployee().getId());
-        return taskDTO;
+        getTaskDTO.setComment(task.get().getComment());
+        getTaskDTO.setName(task.get().getName());
+        getTaskDTO.setFirstName(task.get().getEmployee().getUser().getFirstName());
+        getTaskDTO.setLastName(task.get().getEmployee().getUser().getLastName());
+        getTaskDTO.setPatronymic(task.get().getEmployee().getUser().getPatronymic());
+        return getTaskDTO;
     }
 }
