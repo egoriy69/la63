@@ -27,23 +27,23 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public GetTaskDTO getTask(@PathVariable long id){
+    public GetTaskDTO getTask(@PathVariable long id) {
         return taskService.getTask(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateTask(@RequestBody GetTaskDTO getTaskDTO, long id){
-        taskService.update(getTaskDTO, id);
+    public void updateTask(@RequestBody TaskDTO TaskDTO, @PathVariable long id) {
+        taskService.update(TaskDTO, id);
     }
 
     @PostMapping("/new")
-    public void createTask(@RequestBody TaskDTO taskDTO){
+    public void createTask(@RequestBody TaskDTO taskDTO) {
         taskService.createTask(taskDTO);
 
     }
 
     @GetMapping("/fullName")
-    public List<EmployeeDTO> getFullNameEmployee(){
+    public List<EmployeeDTO> getFullNameEmployee() {
         return employeeService.getFullNameEmployee();
     }
 

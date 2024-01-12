@@ -62,10 +62,11 @@ public class TaskService {
     }
 
     @Transactional
-    public void update(GetTaskDTO getTaskDTO, long id) {
+    public void update(TaskDTO taskDTO, long id) {
         Task task = taskRepository.findById(id).get();
-        BeanUtils.copyProperties(getTaskDTO, task, "id");
-//        task.setEmployee(userRepository.fi);
+        BeanUtils.copyProperties(taskDTO, task, "id");
+//        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
+        task.setEmployee(employeeRepository.findById(taskDTO.getEmployeeId()).get());
         taskRepository.save(task);
     }
 
