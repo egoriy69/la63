@@ -2,7 +2,7 @@ package com.example.diplom33.controllers.adminControllers;
 
 
 
-import com.example.diplom33.dto.UserUpdateInfoDTO;
+import com.example.diplom33.dto.ClientUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
@@ -19,23 +19,23 @@ public class EmployeeClientsController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public List<UserDTO> getAllClients() {
-        return userService.getUserByRole("ROLE_CLIENT");
+    public List<UserDTO> getAllClients(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize) {
+        return userService.getUserByRole("ROLE_CLIENT", offset, pageSize);
     }
 
     @GetMapping("/{id}")
-    public UserUpdateInfoDTO showClient(@PathVariable int id) {
+    public ClientUpdateInfoDTO showClient(@PathVariable int id) {
         return userService.getClient(id);
     }
 
     @PatchMapping("/{id}")
-    public void updateClient(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
-        userService.update(userUpdateInfoDTO, id);
+    public void updateClient(@RequestBody ClientUpdateInfoDTO clientUpdateInfoDTO, @PathVariable int id) {
+        userService.update(clientUpdateInfoDTO, id);
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO){
-        employeeService.createUser(userUpdateInfoDTO);
+    public void createClient(@RequestBody ClientUpdateInfoDTO clientUpdateInfoDTO){
+        employeeService.createUser(clientUpdateInfoDTO);
     }
 
     @DeleteMapping("/{id}")

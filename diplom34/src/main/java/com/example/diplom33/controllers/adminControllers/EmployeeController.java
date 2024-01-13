@@ -1,6 +1,5 @@
 package com.example.diplom33.controllers.adminControllers;
 
-import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
@@ -18,16 +17,16 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public List<UserDTO> getUserByRole() {
-        List<UserDTO> userDTO = userService.getUserByRole("ROLE_EMPLOYEE");
-        userDTO.addAll(userService.getUserByRole("ROLE_ADMIN"));
+    public List<UserDTO> getUserByRole(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize) {
+        List<UserDTO> userDTO = userService.getUserByRole("ROLE_EMPLOYEE", offset, pageSize);
+        userDTO.addAll(userService.getUserByRole("ROLE_ADMIN", offset, pageSize));
         return userDTO;
     }
 
-    @PatchMapping("/{id}")
-    public void updateEmployee(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
-        userService.update(userUpdateInfoDTO, id);
-    }
+//    @PatchMapping("/{id}")
+//    public void updateEmployee(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
+//        userService.update(userUpdateInfoDTO, id);
+//    }
 
 //    @PostMapping("/new")
 //    public void createEmployee(@RequestBody EmpRegClientDTO empRegClientDTO) {

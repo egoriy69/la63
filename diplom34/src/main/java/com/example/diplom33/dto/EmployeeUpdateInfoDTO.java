@@ -3,12 +3,10 @@ package com.example.diplom33.dto;
 import com.example.diplom33.validations.annotations.UniqueEmail;
 import com.example.diplom33.validations.annotations.UniquePhone;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 
 import java.util.Date;
 
-@Data
-public class UserUpdateInfoDTO {
+public class EmployeeUpdateInfoDTO {
 
     @NotBlank(message = "поле не может быть пустым")
     private String firstName;
@@ -31,6 +29,5 @@ public class UserUpdateInfoDTO {
 
     private String role;
 
-    private String comment;
 
 }

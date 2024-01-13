@@ -1,9 +1,7 @@
 package com.example.diplom33.services;
 
-import com.example.diplom33.dto.EmployeeDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
-import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.EmployeeRepository;
@@ -18,7 +16,6 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

@@ -3,9 +3,8 @@ package com.example.diplom33.repositories;
 
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.models.User;
-import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -29,6 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
     @Query("SELECT new com.example.diplom33.dto.UserDTO(u.id, u.phone, u.email, u.firstName, u.lastName, u.patronymic) FROM User u JOIN u.roles r WHERE r.name = :roleName")
-    List<UserDTO> findByRole(@Param("roleName") String roleName);
+    List<UserDTO> findByRole(@Param("roleName") String roleName, PageRequest of);
 
 }

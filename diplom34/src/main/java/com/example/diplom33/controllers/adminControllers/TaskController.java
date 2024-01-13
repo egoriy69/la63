@@ -1,6 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
-import com.example.diplom33.dto.EmployeeDTO;
+import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Task;
@@ -43,7 +43,7 @@ public class TaskController {
     }
 
     @GetMapping("/fullName")
-    public List<EmployeeDTO> getFullNameEmployee() {
+    public List<FullNameUserDTO> getFullNameEmployee() {
         return employeeService.getFullNameEmployee();
     }
 

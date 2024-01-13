@@ -1,8 +1,7 @@
 package com.example.diplom33.services;
 
 
-
-import com.example.diplom33.dto.UserUpdateInfoDTO;
+import com.example.diplom33.dto.ClientUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.User;
@@ -12,6 +11,7 @@ import com.example.diplom33.repositories.RefreshTokenRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +27,13 @@ public class UserService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final ClientRepository clientRepository;
 
-    public List<UserDTO> getUserByRole(String name) {
-        return userRepository.findByRole(name);
+    public List<UserDTO> getUserByRole(String name, int offset, int pageSize) {
+//        return userRepository.findByRole(name, );
+        return userRepository.findByRole(name, PageRequest.of(offset, pageSize));
     }
 
-    public UserUpdateInfoDTO getClient(long id) {
-        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
+    public ClientUpdateInfoDTO getClient(long id) {
+        ClientUpdateInfoDTO userUpdateInfoDTO = new ClientUpdateInfoDTO();
         Optional<User> user = userRepository.findById(id);
         userUpdateInfoDTO.setFirstName(user.get().getFirstName());
         userUpdateInfoDTO.setLastName(user.get().getLastName());
@@ -46,15 +47,15 @@ public class UserService {
 
 
     @Transactional
-    public void update(UserUpdateInfoDTO userUpdateInfoDTO, long id) {
+    public void update(ClientUpdateInfoDTO userUpdateInfoDTO, long id) {
         User user = userRepository.findByIdForUpdate(id);
         BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
-        if(Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
+        if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             Client client = clientRepository.findByUserIdForUpdate(id);
             BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
             clientRepository.save(client);
         } else
-        userRepository.save(user);
+            userRepository.save(user);
 
     }
 
