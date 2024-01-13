@@ -6,6 +6,7 @@ import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +30,12 @@ public class EmployeeClientsController {
     }
 
     @PatchMapping("/{id}")
-    public void updateClient(@RequestBody UserUpdateInfoDTO clientUpdateInfoDTO, @PathVariable int id) {
+    public void updateClient(@RequestBody @Valid UserUpdateInfoDTO clientUpdateInfoDTO, @PathVariable int id) {
         userService.update(clientUpdateInfoDTO, id);
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody UserUpdateInfoDTO clientUpdateInfoDTO){
+    public void createClient(@RequestBody @Valid UserUpdateInfoDTO clientUpdateInfoDTO){
         employeeService.createUser(clientUpdateInfoDTO);
     }
 
