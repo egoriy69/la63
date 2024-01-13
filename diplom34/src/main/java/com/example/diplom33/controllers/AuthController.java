@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
