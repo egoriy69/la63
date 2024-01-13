@@ -1,6 +1,7 @@
 package com.example.diplom33.controllers.adminControllers;
 
 import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
 import lombok.AllArgsConstructor;
@@ -18,20 +19,23 @@ public class EmployeeController {
 
     @GetMapping
     public List<UserDTO> getUserByRole(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize) {
-        List<UserDTO> userDTO = userService.getUserByRole("ROLE_EMPLOYEE", offset, pageSize);
-        userDTO.addAll(userService.getUserByRole("ROLE_ADMIN", offset, pageSize));
+        List<UserDTO> userDTO = userService.getUserByRole("ROLE_ADMIN", offset, pageSize);
+        if(userDTO.size()<pageSize) {
+            userDTO.addAll(userService.getUserByRole("ROLE_EMPLOYEE", offset, pageSize-userDTO.size()));
+        }
+
         return userDTO;
     }
 
-//    @PatchMapping("/{id}")
-//    public void updateEmployee(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
-//        userService.update(userUpdateInfoDTO, id);
-//    }
+    @PatchMapping("/{id}")
+    public void updateEmployee(@RequestBody UserUpdateInfoDTO userUpdateInfoDTO, @PathVariable int id) {
+        userService.update(userUpdateInfoDTO, id);
+    }
 
-//    @PostMapping("/new")
-//    public void createEmployee(@RequestBody EmpRegClientDTO empRegClientDTO) {
-//        employeeService.createUser(empRegClientDTO);
-//    }
+    @PostMapping("/new")
+    public void createEmployee(@RequestBody UserUpdateInfoDTO empRegClientDTO) {
+        employeeService.createUser(empRegClientDTO);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable long id) {

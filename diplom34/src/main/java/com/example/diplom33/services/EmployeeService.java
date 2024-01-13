@@ -1,7 +1,7 @@
 package com.example.diplom33.services;
 
 import com.example.diplom33.dto.FullNameUserDTO;
-import com.example.diplom33.dto.ClientUpdateInfoDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.User;
@@ -24,7 +24,7 @@ public class EmployeeService {
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
 
-    public void createUser(ClientUpdateInfoDTO userUpdateInfoDTO) {
+    public void createUser(UserUpdateInfoDTO userUpdateInfoDTO) {
         User user = new User();
         user.setFirstName(userUpdateInfoDTO.getFirstName());
         user.setLastName(userUpdateInfoDTO.getLastName());
@@ -38,7 +38,7 @@ public class EmployeeService {
 
     }
 
-    private void createUserByRole(User user, ClientUpdateInfoDTO userUpdateInfoDTO) {
+    private void createUserByRole(User user, UserUpdateInfoDTO userUpdateInfoDTO) {
         if (userUpdateInfoDTO.getRole() == null) {
             Client client = new Client();
             client.setUser(user);

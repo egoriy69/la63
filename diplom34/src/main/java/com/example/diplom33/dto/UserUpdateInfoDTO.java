@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ClientUpdateInfoDTO {
+public class UserUpdateInfoDTO {
 
     @NotBlank(message = "поле не может быть пустым")
     private String firstName;

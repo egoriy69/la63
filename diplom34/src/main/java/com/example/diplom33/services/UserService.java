@@ -1,7 +1,7 @@
 package com.example.diplom33.services;
 
 
-import com.example.diplom33.dto.ClientUpdateInfoDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.User;
@@ -32,8 +32,8 @@ public class UserService {
         return userRepository.findByRole(name, PageRequest.of(offset, pageSize));
     }
 
-    public ClientUpdateInfoDTO getClient(long id) {
-        ClientUpdateInfoDTO userUpdateInfoDTO = new ClientUpdateInfoDTO();
+    public UserUpdateInfoDTO getClient(long id) {
+        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
         Optional<User> user = userRepository.findById(id);
         userUpdateInfoDTO.setFirstName(user.get().getFirstName());
         userUpdateInfoDTO.setLastName(user.get().getLastName());
@@ -47,7 +47,7 @@ public class UserService {
 
 
     @Transactional
-    public void update(ClientUpdateInfoDTO userUpdateInfoDTO, long id) {
+    public void update(UserUpdateInfoDTO userUpdateInfoDTO, long id) {
         User user = userRepository.findByIdForUpdate(id);
         BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
