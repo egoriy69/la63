@@ -2,6 +2,7 @@ package com.example.diplom33.controllers.adminControllers;
 
 
 
+import com.example.diplom33.dto.UserCreateInfoDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.services.EmployeeService;
@@ -35,8 +36,8 @@ public class EmployeeClientsController {
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody @Valid UserUpdateInfoDTO clientUpdateInfoDTO){
-        employeeService.createUser(clientUpdateInfoDTO);
+    public void createClient(@RequestBody @Valid UserCreateInfoDTO userCreateInfoDTO){
+        employeeService.createUser(userCreateInfoDTO);
     }
 
     @DeleteMapping("/{id}")

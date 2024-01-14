@@ -1,6 +1,7 @@
 package com.example.diplom33.services;
 
 import com.example.diplom33.dto.FullNameUserDTO;
+import com.example.diplom33.dto.UserCreateInfoDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Employee;
@@ -24,32 +25,32 @@ public class EmployeeService {
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
 
-    public void createUser(UserUpdateInfoDTO userUpdateInfoDTO) {
+    public void createUser(UserCreateInfoDTO userCreateInfoDTO) {
         User user = new User();
-        user.setFirstName(userUpdateInfoDTO.getFirstName());
-        user.setLastName(userUpdateInfoDTO.getLastName());
-        user.setPatronymic(userUpdateInfoDTO.getPatronymic());
-        user.setBirth(userUpdateInfoDTO.getBirth());
-        user.setPhone(userUpdateInfoDTO.getPhone());
-        user.setPassport(userUpdateInfoDTO.getPassport());
-        user.setEmail(userUpdateInfoDTO.getEmail());
+        user.setFirstName(userCreateInfoDTO.getFirstName());
+        user.setLastName(userCreateInfoDTO.getLastName());
+        user.setPatronymic(userCreateInfoDTO.getPatronymic());
+        user.setBirth(userCreateInfoDTO.getBirth());
+        user.setPhone(userCreateInfoDTO.getPhone());
+        user.setPassport(userCreateInfoDTO.getPassport());
+        user.setEmail(userCreateInfoDTO.getEmail());
 //        user.setRoles(Collections.singletonList(roleRepository.findByName(empRegClientDTO.getRole()).get()));
-        createUserByRole(user, userUpdateInfoDTO);
+        createUserByRole(user, userCreateInfoDTO);
 
     }
 
-    private void createUserByRole(User user, UserUpdateInfoDTO userUpdateInfoDTO) {
-        if (userUpdateInfoDTO.getRole() == null) {
+    private void createUserByRole(User user, UserCreateInfoDTO userCreateInfoDTO) {
+        if (userCreateInfoDTO.getRole() == null) {
             Client client = new Client();
             client.setUser(user);
-            client.setComment(userUpdateInfoDTO.getComment());
+            client.setComment(userCreateInfoDTO.getComment());
             user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
             userRepository.save(user);
             clientRepository.save(client);
         } else {
             Employee employee = new Employee();
             employee.setUser(user);
-            user.setRoles(Collections.singletonList(roleRepository.findByName(userUpdateInfoDTO.getRole()).get()));
+            user.setRoles(Collections.singletonList(roleRepository.findByName(userCreateInfoDTO.getRole()).get()));
             userRepository.save(user);
             employeeRepository.save(employee);
         }
