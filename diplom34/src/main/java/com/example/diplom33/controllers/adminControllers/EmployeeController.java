@@ -42,4 +42,9 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable long id) {
         userService.delete(id);
     }
+
+    @GetMapping("/{id}")
+    public UserUpdateInfoDTO showEmployee(@PathVariable int id) {
+        return userService.getClient(id);
+    }
 }
