@@ -27,7 +27,7 @@ public class UserUpdateInfoDTO {
 
     private String passport;
 
-    @UniqueEmail
+//    @UniqueEmail
     @Email(message = "не валидный email")
     private String email;
 
