@@ -42,6 +42,10 @@ public class UserService {
         userUpdateInfoDTO.setPhone(user.get().getPhone());
         userUpdateInfoDTO.setPassport(user.get().getPassport());
         userUpdateInfoDTO.setEmail(user.get().getEmail());
+        if(Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT"))
+        {
+            userUpdateInfoDTO.setComment(user.get().getClient().getComment());
+        }
         return userUpdateInfoDTO;
     }
 
