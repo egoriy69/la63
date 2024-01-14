@@ -42,6 +42,7 @@ public class TaskService {
         Task task = new Task();
         task.setName(taskDTO.getName());
         task.setComment(taskDTO.getComment());
+        task.setExpiryDate(taskDTO.getExpiryDate());
 //        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
         task.setEmployee(employeeRepository.findById(taskDTO.getEmployeeId()).get());
         taskRepository.save(task);

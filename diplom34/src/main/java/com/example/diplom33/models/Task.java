@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
+
 @Entity
 @Data
 @Table(name = "task")
@@ -19,6 +21,9 @@ public class Task {
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "expiry_date")
+    private Instant expiryDate;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
