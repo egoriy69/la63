@@ -8,6 +8,7 @@ import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.RefreshTokenRepository;
 
+import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -26,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final ClientRepository clientRepository;
+    private final RoleRepository roleRepository;
 
     public List<UserDTO> getUserByRole(String name, int offset, int pageSize) {
 //        return userRepository.findByRole(name, );
@@ -45,6 +48,8 @@ public class UserService {
         if(Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT"))
         {
             userUpdateInfoDTO.setComment(user.get().getClient().getComment());
+        }else {
+            userUpdateInfoDTO.setRole(user.get().getRoles().get(0).getName());
         }
         return userUpdateInfoDTO;
     }
@@ -58,8 +63,13 @@ public class UserService {
             Client client = clientRepository.findByUserIdForUpdate(id);
             BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
             clientRepository.save(client);
-        } else
+        } else {
+//            user.setRoles(List.of(roleRepository.findByName(userUpdateInfoDTO.getRole()).get()));
+            user.setRoles(new ArrayList<>(List.of(roleRepository.findByName(userUpdateInfoDTO.getRole()).get())));
+//            user.setRoles();
             userRepository.save(user);
+//            user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
+        }
 
     }
 

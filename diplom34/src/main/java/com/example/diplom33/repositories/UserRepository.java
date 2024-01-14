@@ -2,6 +2,7 @@ package com.example.diplom33.repositories;
 
 
 import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.models.Role;
 import com.example.diplom33.models.User;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u where u.id = ?1")
     User findByIdForUpdate(Long id);
 
+//    List<UserDTO> findByRole(String roleName);
 
 
     @Query("SELECT new com.example.diplom33.dto.UserDTO(u.id, u.phone, u.email, u.firstName, u.lastName, u.patronymic) FROM User u JOIN u.roles r WHERE r.name = :roleName")
