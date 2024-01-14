@@ -24,7 +24,7 @@ public class EmployeeUpdateInfoDTO {
 
     private String passport;
 
-    @UniqueEmail
+//    @UniqueEmail
     private String email;
 
     private String role;
