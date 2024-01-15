@@ -1,7 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
 import com.example.diplom33.dto.FullNameUserDTO;
-import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.models.Task;
@@ -29,30 +28,23 @@ public class TaskController {
 
 
     @GetMapping("/admin")
-    public Optional<List<Task>> getAllTasksForAdmin(@RequestParam(defaultValue = "-1") long id) {
-//        return taskService.getAllTasksForAdmin();
-        return null;
+    public Optional<List<TaskGetDTO>> getAllTasksForAdmin(@RequestParam(defaultValue = "-1") long id, @RequestParam(defaultValue = "in_progress") String status) {
+        return taskService.getAllTasksForAdmin(id, status);
     }
-//
-//    @GetMapping("/createdTask")
-//    public Optional<List<Task>> getCreatedTasks(Principal principal) {
-//        return taskService.getCreatedTasks(principal);
-//    }
 
-//    @GetMapping("/{id}")
-//    public GetTaskDTO getTask(@PathVariable long id) {
-//        return taskService.getTask(id);
-//    }
-//
-//    @PatchMapping("/{id}")
-//    public void updateTask(@RequestBody TaskDTO TaskDTO, @PathVariable long id) {
-//        taskService.update(TaskDTO, id);
-//    }
-//
+    @GetMapping("/{id}")
+    public Optional<Task> getTask(@PathVariable long id){
+        return taskService.getTask(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateTask(@RequestBody TaskDTO TaskDTO, @PathVariable long id) {
+        taskService.update(TaskDTO, id);
+    }
+
     @PostMapping("/new")
     public void createTask(@RequestBody TaskDTO taskDTO, Principal principal) {
         taskService.createTask(taskDTO, principal);
-
     }
 
     @GetMapping("/fullName")
@@ -60,5 +52,8 @@ public class TaskController {
         return employeeService.getFullNameEmployee();
     }
 
-
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable long id){
+        taskService.deleteTask(id);
+    }
 }

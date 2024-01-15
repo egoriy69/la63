@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     //    Optional<List<Task>> findByEmployee(Employee employee);
     Optional<List<Task>> findByEmployeeRecipientAndStatusIn(Employee employeeRecipient, Collection<TaskStatus> status);
+    Optional<List<Task>> findByEmployeeRecipient(Employee employee);
+    Optional<List<Task>> findByStatusIn(Collection<TaskStatus> status);
 
     Optional<List<Task>> findByEmployeeProducer(Employee employee);
 

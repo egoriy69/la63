@@ -9,6 +9,7 @@ import com.example.diplom33.repositories.EmployeeRepository;
 import com.example.diplom33.repositories.TaskRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,21 +54,34 @@ public class TaskService {
                 );
     }
 
+    @Transactional
+    public Optional<List<TaskGetDTO>> getAllTasksForAdmin(long id, String status) {
+        updateAllTaskStatus();
 
-//    @Transactional
-//    public Optional<List<Task>> getAllTasksForAdmin() {
-//        updateAllTaskStatus();
-//        return Optional.of(taskRepository.findAll());
-//    }
+        List<Task> tasks = switch (status) {
+            case "in_progress" -> (id == -1) ?
+                    taskRepository.findByStatusIn(Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED)).orElse(null) :
+                    taskRepository.findByEmployeeRecipientAndStatusIn(employeeRepository.findById(id).orElse(null), Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED)).orElse(null);
+            case "completed" -> (id == -1) ?
+                    taskRepository.findByStatusIn(List.of(TaskStatus.COMPLETED)).orElse(null) :
+                    taskRepository.findByEmployeeRecipientAndStatusIn(employeeRepository.findById(id).orElse(null), List.of(TaskStatus.COMPLETED)).orElse(null);
+            case "produce" -> (id == -1) ?
+                    taskRepository.findByStatusIn(Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED)).orElse(null) :
+                    taskRepository.findByEmployeeProducer(employeeRepository.findById(id).orElse(null)).orElse(null);
+            default -> throw new IllegalArgumentException("Invalid status: " + status);
+        };
 
-//    @Transactional
-//    public Optional<List<Task>> getCreatedTasks(Principal principal) {
-//        String phone = principal.getName();
-//        User user = userRepository.findByPhone(phone).orElse(null);
-//        updateAllTaskStatus();
-//
-//        return taskRepository.findByEmployeeProducer(user.getEmployee());
-//    }
+       return Optional.ofNullable(tasks).map(tasksList -> tasksList.stream().map(this::convertToTaskGetDTO).collect(Collectors.toList()));
+    }
+
+    public Optional<Task> getTask(long id){
+        return taskRepository.findById(id);
+    }
+
+    @Transactional
+    public void deleteTask(long id){
+        taskRepository.delete(taskRepository.findById(id).get());
+    }
 
 
     @Transactional
@@ -83,14 +97,13 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-//    @Transactional
-//    public void update(TaskDTO taskDTO, long id) {
-//        Task task = taskRepository.findById(id).get();
-//        BeanUtils.copyProperties(taskDTO, task, "id");
-////        task.setEmployee(userRepository.findById(taskDTO.getEmployeeId()).get().getEmployee());
-//        task.setEmployee(employeeRepository.findById(taskDTO.getEmployeeId()).get());
-//        taskRepository.save(task);
-//    }
+    @Transactional
+    public void update(TaskDTO taskDTO, long id) {
+        Task task = taskRepository.findById(id).get();
+        BeanUtils.copyProperties(taskDTO, task, "id");
+        task.setEmployeeRecipient(employeeRepository.findById(taskDTO.getRecipientId()).get());
+        taskRepository.save(task);
+    }
 
     @Transactional
     public void updateAllTaskStatus() {
@@ -116,17 +129,3 @@ public class TaskService {
         return dto;
     }
 }
-
-
-//    @Transactional
-//    public Optional<List<TaskGetDTO>> getAllTasksForUserCompleted(Principal principal) {
-//        String phone = principal.getName();
-//        User user = userRepository.findByPhone(phone).orElse(null);
-//        updateAllTaskStatus();
-//
-//        List<Task> tasks = taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), List.of(TaskStatus.COMPLETED)).orElse(null);
-//        return Optional.of(tasks.stream()
-//                .map(this::convertToTaskGetDTO)
-//                .collect(Collectors.toList()));
-//
-//    }
