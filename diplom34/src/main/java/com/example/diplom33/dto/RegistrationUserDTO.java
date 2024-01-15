@@ -24,7 +24,7 @@ public class RegistrationUserDTO {
     private String phone;
 
     @NotNull
-    @Size(min = 6, message = "пароль должен содержать минимум 6 символов")
+//    @Size(min = 6, message = "пароль должен содержать минимум 6 символов")
     private String password;
 
     private String confirmPassword;

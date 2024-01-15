@@ -63,6 +63,10 @@ public class User {
     )
     private List<Role> roles;
 
+    public String getFullName() {
+        return String.format("%s %s %s", lastName, firstName, patronymic);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
