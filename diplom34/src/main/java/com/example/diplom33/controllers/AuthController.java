@@ -25,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
 @RequiredArgsConstructor
@@ -64,16 +66,16 @@ public class AuthController {
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response, Principal principal) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
+        authService.logout(principal);
         return new ResponseEntity<>("пользователь вышел", HttpStatus.OK);
     }
 
 
     @PostMapping("/refreshToken")
     public JwtResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-
         return refreshTokenService.findByToken(refreshTokenRequest.getRefreshToken())
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
@@ -84,7 +86,6 @@ public class AuthController {
                             .refreshToken(refreshTokenRequest.getRefreshToken())
                             .build();
                 }).orElseThrow(() -> new NoSuchException("Нужна повторная авторизация"));
-
     }
 }
 

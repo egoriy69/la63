@@ -8,6 +8,7 @@ import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.EmployeeRepository;
+import com.example.diplom33.repositories.RefreshTokenRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
     private final EmployeeRepository employeeRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public void createUser(RegistrationUserDTO registrationUser) {
@@ -42,5 +45,11 @@ public class AuthService {
 
         userRepository.save(user);
 
+    }
+
+    @Transactional
+    public void logout(Principal principal){
+        User user = userRepository.findByPhone(principal.getName()).get();
+        refreshTokenRepository.delete(refreshTokenRepository.findByUser(user).get());
     }
 }
