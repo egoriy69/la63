@@ -27,18 +27,12 @@ public class TaskController {
         return taskService.getAllTasksForUser(principal, status);
     }
 
-//    @GetMapping
-//    public Optional<List<TaskGetDTO>> getAllTasksForUserCompleted(Principal principal){
-//        return taskService.getAllTasksForUserCompleted(principal);
-//    }
-//
 
-
-
-//    @GetMapping("/admin")
-//    public Optional<List<Task>> getAllTasksForAdmin() {
+    @GetMapping("/admin")
+    public Optional<List<Task>> getAllTasksForAdmin(@RequestParam(defaultValue = "-1") long id) {
 //        return taskService.getAllTasksForAdmin();
-//    }
+        return null;
+    }
 //
 //    @GetMapping("/createdTask")
 //    public Optional<List<Task>> getCreatedTasks(Principal principal) {
@@ -60,16 +54,11 @@ public class TaskController {
         taskService.createTask(taskDTO, principal);
 
     }
-//
-//    @GetMapping("/fullName")
-//    public List<FullNameUserDTO> getFullNameEmployee() {
-//        return employeeService.getFullNameEmployee();
-//    }
 
-
-    private void updateTaskStatus(Task task) {
-        // Ваша логика обновления статуса
-        // Например, проверка истечения срока и обновление статуса на EXPIRED
+    @GetMapping("/fullName")
+    public List<FullNameUserDTO> getFullNameEmployee() {
+        return employeeService.getFullNameEmployee();
     }
+
 
 }

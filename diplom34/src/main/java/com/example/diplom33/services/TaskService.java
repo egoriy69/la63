@@ -18,6 +18,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,72 +30,29 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final EmployeeRepository employeeRepository;
 
-
-
-//    @Transactional
-//    public Optional<List<TaskGetDTO>> getAllTasksForUser(Principal principal) {
-//        String phone = principal.getName();
-//        User user = userRepository.findByPhone(phone).orElse(null);
-//        updateAllTaskStatus();
-//
-//        List<Task> tasks = taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED)).orElse(null);
-//            return Optional.of(tasks.stream()
-//                    .map(this::convertToTaskGetDTO)
-//                    .collect(Collectors.toList()));
-//
-//    }
-
     @Transactional
     public Optional<List<TaskGetDTO>> getAllTasksForUser(Principal principal, String status) {
         String phone = principal.getName();
         User user = userRepository.findByPhone(phone).orElse(null);
         updateAllTaskStatus();
 
-        List<TaskStatus> targetStatuses = switch (status) {
-            case "in_progress" -> Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED);
-            case "completed" -> List.of(TaskStatus.COMPLETED);
-            default -> null;
+        List<Task> tasks = switch (status) {
+            case "in_progress" ->
+                    taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED)).orElse(null);
+            case "completed" ->
+                    taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), List.of(TaskStatus.COMPLETED)).orElse(null);
+            case "produce" -> taskRepository.findByEmployeeProducer(user.getEmployee()).orElse(null);
+            default -> throw new IllegalArgumentException("Invalid status: " + status);
         };
-        List<Task> tasks = taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), targetStatuses).orElse(null);
 
-        return Optional.ofNullable(tasks).map(taskList ->
-                taskList.stream()
-                        .map(this::convertToTaskGetDTO)
-                        .collect(Collectors.toList())
-        );
-
+        return Optional.ofNullable(tasks)
+                .map(taskList ->
+                        taskList.stream()
+                                .map(this::convertToTaskGetDTO)
+                                .collect(Collectors.toList())
+                );
     }
 
-
-
-//    public Optional<List<TaskGetDTO>> getAllTasksForUser(Principal principal,
-//                                                         @RequestParam(name = "status", required = true) String status) {
-//        String phone = principal.getName();
-//        User user = userRepository.findByPhone(phone).orElse(null);
-//        updateAllTaskStatus();
-//
-//        List<TaskStatus> targetStatuses;
-//        switch (status) {
-//            case "in_progress":
-//                targetStatuses = Arrays.asList(TaskStatus.IN_PROGRESS, TaskStatus.EXPIRED);
-//                break;
-//            case "completed":
-//                targetStatuses = List.of(TaskStatus.COMPLETED);
-//                break;
-//            default:
-//                // По умолчанию возвращаем все задачи
-//                targetStatuses = Arrays.asList(TaskStatus.values());
-//                break;
-//        }
-//
-//        List<Task> tasks = taskRepository.findByEmployeeRecipientAndStatusIn(user.getEmployee(), targetStatuses).orElse(null);
-//
-//        return Optional.ofNullable(tasks).map(taskList ->
-//                taskList.stream()
-//                        .map(this::convertToTaskGetDTO)
-//                        .collect(Collectors.toList())
-//        );
-//    }
 
 //    @Transactional
 //    public Optional<List<Task>> getAllTasksForAdmin() {
@@ -138,11 +96,11 @@ public class TaskService {
     public void updateAllTaskStatus() {
         List<Task> allTasks = taskRepository.findAll();
         for (Task task : allTasks) {
-            if (task.getExpiryDate().isBefore(Instant.now()) && task.getStatus()!=TaskStatus.EXPIRED) {
+            if (task.getExpiryDate().isBefore(Instant.now()) && task.getStatus() != TaskStatus.EXPIRED) {
                 task.setStatus(TaskStatus.EXPIRED);
                 taskRepository.save(task);
             }
-            if(task.getExpiryDate().plus(Duration.ofDays(7)).isBefore(Instant.now())){
+            if (task.getExpiryDate().plus(Duration.ofDays(7)).isBefore(Instant.now())) {
                 taskRepository.delete(task);
             }
         }
