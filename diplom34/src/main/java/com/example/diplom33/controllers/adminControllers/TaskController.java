@@ -3,6 +3,7 @@ package com.example.diplom33.controllers.adminControllers;
 import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.GetTaskDTO;
 import com.example.diplom33.dto.TaskDTO;
+import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.TaskService;
@@ -22,19 +23,27 @@ public class TaskController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public Optional<List<Task>> getTaskForEmployee(Principal principal){
-        return taskService.getAllTasksForUser(principal);
+    public Optional<List<TaskGetDTO>> getTaskForEmployee(Principal principal, @RequestParam(defaultValue = "in_progress") String status){
+        return taskService.getAllTasksForUser(principal, status);
     }
 
-    @GetMapping("/admin")
-    public Optional<List<Task>> getAllTasksForAdmin() {
-        return taskService.getAllTasksForAdmin();
-    }
+//    @GetMapping
+//    public Optional<List<TaskGetDTO>> getAllTasksForUserCompleted(Principal principal){
+//        return taskService.getAllTasksForUserCompleted(principal);
+//    }
+//
 
-    @GetMapping("/createdTask")
-    public Optional<List<Task>> getCreatedTasks(Principal principal) {
-        return taskService.getCreatedTasks(principal);
-    }
+
+
+//    @GetMapping("/admin")
+//    public Optional<List<Task>> getAllTasksForAdmin() {
+//        return taskService.getAllTasksForAdmin();
+//    }
+//
+//    @GetMapping("/createdTask")
+//    public Optional<List<Task>> getCreatedTasks(Principal principal) {
+//        return taskService.getCreatedTasks(principal);
+//    }
 
 //    @GetMapping("/{id}")
 //    public GetTaskDTO getTask(@PathVariable long id) {
