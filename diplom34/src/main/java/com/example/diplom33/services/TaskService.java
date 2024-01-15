@@ -8,7 +8,7 @@ import com.example.diplom33.repositories.EmployeeRepository;
 import com.example.diplom33.repositories.TaskRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
+// import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final EmployeeRepository employeeRepository;
 
-    private final ModelMapper modelMapper;
+    // private final ModelMapper modelMapper;
 
     @Transactional
     public Optional<List<Task>> getAllTasksForUser(Principal principal) {
