@@ -1,5 +1,6 @@
 package com.example.diplom33.models;
 
+import com.example.diplom33.enumeration.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,9 +26,19 @@ public class Task {
     @Column(name = "expiry_date")
     private Instant expiryDate;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
+
     @ManyToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     @JsonIgnore
-    private Employee employee;
+    private Employee employeeRecipient;//получатель задачи
+
+    @ManyToOne
+    @JoinColumn(name = "producer_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Employee employeeProducer;//постановщик задачи
 
 }

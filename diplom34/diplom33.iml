@@ -141,6 +141,7 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-messaging:6.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-websocket:6.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.modelmapper:modelmapper:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-starter-webmvc-api:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.springdoc:springdoc-openapi-starter-common:2.3.0" level="project" />

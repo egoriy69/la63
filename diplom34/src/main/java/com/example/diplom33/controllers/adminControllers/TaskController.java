@@ -22,30 +22,45 @@ public class TaskController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public Optional<List<Task>> getAllTasksForUser(Principal principal) {
+    public Optional<List<Task>> getTaskForEmployee(Principal principal){
         return taskService.getAllTasksForUser(principal);
     }
 
-    @GetMapping("/{id}")
-    public GetTaskDTO getTask(@PathVariable long id) {
-        return taskService.getTask(id);
+    @GetMapping("/admin")
+    public Optional<List<Task>> getAllTasksForAdmin() {
+        return taskService.getAllTasksForAdmin();
     }
 
-    @PatchMapping("/{id}")
-    public void updateTask(@RequestBody TaskDTO TaskDTO, @PathVariable long id) {
-        taskService.update(TaskDTO, id);
+    @GetMapping("/createdTask")
+    public Optional<List<Task>> getCreatedTasks(Principal principal) {
+        return taskService.getCreatedTasks(principal);
     }
 
+//    @GetMapping("/{id}")
+//    public GetTaskDTO getTask(@PathVariable long id) {
+//        return taskService.getTask(id);
+//    }
+//
+//    @PatchMapping("/{id}")
+//    public void updateTask(@RequestBody TaskDTO TaskDTO, @PathVariable long id) {
+//        taskService.update(TaskDTO, id);
+//    }
+//
     @PostMapping("/new")
-    public void createTask(@RequestBody TaskDTO taskDTO) {
-        taskService.createTask(taskDTO);
+    public void createTask(@RequestBody TaskDTO taskDTO, Principal principal) {
+        taskService.createTask(taskDTO, principal);
 
     }
+//
+//    @GetMapping("/fullName")
+//    public List<FullNameUserDTO> getFullNameEmployee() {
+//        return employeeService.getFullNameEmployee();
+//    }
 
-    @GetMapping("/fullName")
-    public List<FullNameUserDTO> getFullNameEmployee() {
-        return employeeService.getFullNameEmployee();
+
+    private void updateTaskStatus(Task task) {
+        // Ваша логика обновления статуса
+        // Например, проверка истечения срока и обновление статуса на EXPIRED
     }
-
 
 }

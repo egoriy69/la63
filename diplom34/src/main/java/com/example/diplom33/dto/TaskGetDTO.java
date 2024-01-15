@@ -5,18 +5,15 @@ import lombok.Data;
 import java.time.Instant;
 
 @Data
-public class TaskDTO {
+public class TaskGetDTO {
 
     private String name;
 
-    private String comment;
-
     private Instant expiryDate;
 
-//
+    private String status;
 
-    private long recipientId;
+    private String recipient;
 
-    private long producerId;
-
+    private String producer;
 }
