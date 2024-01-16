@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.time.Duration;
@@ -127,5 +128,17 @@ public class TaskService {
         dto.setRecipient(task.getEmployeeRecipient().getUser().getFullName());
         dto.setProducer(task.getEmployeeProducer().getUser().getFullName());
         return dto;
+    }
+
+     @Transactional
+    public void updateStatus(@PathVariable long id, String status) {
+         Task task = taskRepository.findById(id).get();
+         task.setStatus(TaskStatus.valueOf(status.toUpperCase()));
+//         switch (status) {
+//             case "in_progress" ->task.setStatus(TaskStatus.IN_PROGRESS);
+//             case "completed" ->task.setStatus(TaskStatus.COMPLETED);
+//             default -> throw new IllegalArgumentException("Invalid status: " + status);
+//         };
+         taskRepository.save(task);
     }
 }

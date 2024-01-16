@@ -3,6 +3,8 @@ package com.example.diplom33.controllers.adminControllers;
 import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.dto.TaskGetDTO;
+import com.example.diplom33.dto.UpdateStatusRequest;
+import com.example.diplom33.enumeration.TaskStatus;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.TaskService;
@@ -55,5 +57,10 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable long id){
         taskService.deleteTask(id);
+    }
+
+    @PostMapping("/updateStatus/{id}")
+    public void updateStatus(@RequestBody UpdateStatusRequest status, @PathVariable long id) {
+        taskService.updateStatus(id, status.getStatus());
     }
 }
