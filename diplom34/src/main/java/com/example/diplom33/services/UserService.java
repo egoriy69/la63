@@ -4,6 +4,7 @@ package com.example.diplom33.services;
 import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.enumeration.ClientStatus;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
@@ -55,12 +56,12 @@ public class UserService {
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             Client client = clientRepository.findByUserIdForUpdate(id);
             BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
+            client.setStatus(ClientStatus.valueOf(userUpdateInfoDTO.getStatus()));
             clientRepository.save(client);
         } else {
             user.setRoles(new ArrayList<>(List.of(roleRepository.findByName(userUpdateInfoDTO.getRole()).get())));
             userRepository.save(user);
         }
-
     }
 
     @Transactional
