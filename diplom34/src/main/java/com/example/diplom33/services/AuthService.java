@@ -33,7 +33,7 @@ public class AuthService {
     public void createUser(RegistrationUserDTO registrationUser) {
 
         if (!registrationUser.getPassword().equals(registrationUser.getConfirmPassword())) {
-            throw new NoSuchException("пароли не совпадают");
+            throw new NoSuchException("Пароли не совпадают");
         }
        User user = userRepository.findByPhone(registrationUser.getPhone()).orElseThrow(() -> new UsernameNotFoundException("пользователь '%s' не найден"));
 
