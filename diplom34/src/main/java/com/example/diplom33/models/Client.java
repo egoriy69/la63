@@ -1,5 +1,6 @@
 package com.example.diplom33.models;
 
+import com.example.diplom33.enumeration.ClientStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,16 @@ public class Client {
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private ClientStatus status;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "login")
+    private String login;
 
 
     @OneToOne

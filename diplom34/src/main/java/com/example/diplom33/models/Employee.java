@@ -25,8 +25,7 @@ public class Employee {
     @JsonIgnore
     private User user;
 
-//    @OneToMany(mappedBy = "employee")
-//    private List<Task> tasks;
+
 
     @OneToMany(mappedBy = "employeeRecipient")
     private List<Task> assignedTasks;  // Список задач, которые назначены этому сотруднику

@@ -2,6 +2,8 @@ package com.example.diplom33.dto;
 
 import com.example.diplom33.validations.annotations.UniqueEmail;
 import com.example.diplom33.validations.annotations.UniquePhone;
+import com.example.diplom33.validations.annotations.UniquePhoneUpdate;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
@@ -24,7 +26,7 @@ public class EmployeeUpdateInfoDTO {
 
     private String passport;
 
-//    @UniqueEmail
+    @Email(message = "не валидный email")
     private String email;
 
     private String role;

@@ -3,8 +3,9 @@ package com.example.diplom33.controllers.adminControllers;
 
 
 import com.example.diplom33.dto.UserCreateInfoDTO;
-import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.dto.UserUpdateInfoDTO;
+import com.example.diplom33.services.ClientService;
 import com.example.diplom33.services.EmployeeService;
 import com.example.diplom33.services.UserService;
 import jakarta.validation.Valid;
@@ -12,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
 @AllArgsConstructor
@@ -19,15 +22,18 @@ import java.util.List;
 public class EmployeeClientsController {
     private final UserService userService;
     private final EmployeeService employeeService;
+    private final ClientService clientService;
 
     @GetMapping
-    public List<UserDTO> getAllClients(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize) {
-        return userService.getUserByRole("ROLE_CLIENT", offset, pageSize);
+    public Optional<List<UserDTO>> getAllClients(@RequestParam(defaultValue = "0") int offset,
+                                                 @RequestParam(defaultValue = "10") int pageSize,
+                                                 @RequestParam(defaultValue = "in_progress") String status) {
+        return clientService.getAllClient(status, offset, pageSize);
     }
 
     @GetMapping("/{id}")
     public UserUpdateInfoDTO showClient(@PathVariable int id) {
-        return userService.getClient(id);
+        return userService.getUser(id);
     }
 
     @PatchMapping("/{id}")
