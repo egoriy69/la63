@@ -20,9 +20,9 @@ public class EmployeeController {
 
     @GetMapping
     public List<UserDTO> getUserByRole(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "10") int pageSize) {
-        List<UserDTO> userDTO = userService.getUserByRole("ROLE_ADMIN", offset, pageSize);
+        List<UserDTO> userDTO = employeeService.getUserByRole("ROLE_ADMIN", offset, pageSize);
         if(userDTO.size()<pageSize) {
-            userDTO.addAll(userService.getUserByRole("ROLE_EMPLOYEE", offset, pageSize-userDTO.size()));
+            userDTO.addAll(employeeService.getUserByRole("ROLE_EMPLOYEE", offset, pageSize-userDTO.size()));
         }
 
         return userDTO;
@@ -43,8 +43,8 @@ public class EmployeeController {
         userService.delete(id);
     }
 
-    @GetMapping("/{id}")
-    public UserUpdateInfoDTO showEmployee(@PathVariable int id) {
-        return userService.getClient(id);
-    }
+//    @GetMapping("/{id}")
+//    public UserUpdateInfoDTO showEmployee(@PathVariable int id) {
+//        return userService.getClient(id);
+//    }
 }

@@ -2,7 +2,8 @@ package com.example.diplom33.services;
 
 import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.UserCreateInfoDTO;
-import com.example.diplom33.dto.UserUpdateInfoDTO;
+import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.enumeration.ClientStatus;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Employee;
 import com.example.diplom33.models.User;
@@ -11,6 +12,7 @@ import com.example.diplom33.repositories.EmployeeRepository;
 import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -34,9 +36,11 @@ public class EmployeeService {
         user.setPhone(userCreateInfoDTO.getPhone());
         user.setPassport(userCreateInfoDTO.getPassport());
         user.setEmail(userCreateInfoDTO.getEmail());
-//        user.setRoles(Collections.singletonList(roleRepository.findByName(empRegClientDTO.getRole()).get()));
         createUserByRole(user, userCreateInfoDTO);
+    }
 
+    public List<UserDTO> getUserByRole(String name, int offset, int pageSize) {
+        return userRepository.findByRole(name, PageRequest.of(offset, pageSize));
     }
 
     private void createUserByRole(User user, UserCreateInfoDTO userCreateInfoDTO) {
@@ -44,6 +48,9 @@ public class EmployeeService {
             Client client = new Client();
             client.setUser(user);
             client.setComment(userCreateInfoDTO.getComment());
+            client.setStatus(ClientStatus.valueOf(userCreateInfoDTO.getStatus()));
+            client.setLogin(userCreateInfoDTO.getLogin());
+            client.setPassword(userCreateInfoDTO.getPassword());
             user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
             userRepository.save(user);
             clientRepository.save(client);

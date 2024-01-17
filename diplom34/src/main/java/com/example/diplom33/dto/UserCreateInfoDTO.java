@@ -33,4 +33,10 @@ public class UserCreateInfoDTO {
     private String role;
 
     private String comment;
+
+    private String status;
+
+    private String password;
+
+    private String login;
 }

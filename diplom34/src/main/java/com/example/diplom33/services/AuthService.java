@@ -27,8 +27,6 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final ClientRepository clientRepository;
-    private final EmployeeRepository employeeRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional

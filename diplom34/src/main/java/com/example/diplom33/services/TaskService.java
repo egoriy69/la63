@@ -134,11 +134,6 @@ public class TaskService {
     public void updateStatus(@PathVariable long id, String status) {
          Task task = taskRepository.findById(id).get();
          task.setStatus(TaskStatus.valueOf(status.toUpperCase()));
-//         switch (status) {
-//             case "in_progress" ->task.setStatus(TaskStatus.IN_PROGRESS);
-//             case "completed" ->task.setStatus(TaskStatus.COMPLETED);
-//             default -> throw new IllegalArgumentException("Invalid status: " + status);
-//         };
          taskRepository.save(task);
     }
 }

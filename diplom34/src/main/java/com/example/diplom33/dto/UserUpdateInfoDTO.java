@@ -28,12 +28,17 @@ public class UserUpdateInfoDTO {
 
     private String passport;
 
-//    @UniqueEmail
     @Email(message = "не валидный email")
     private String email;
 
     private String role;
 
     private String comment;
+
+    private String status;
+
+    private String password;
+
+    private String login;
 
 }

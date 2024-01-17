@@ -1,9 +1,11 @@
 package com.example.diplom33.services;
 
 
+import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.models.Client;
+import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.RefreshTokenRepository;
@@ -26,34 +28,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final ClientRepository clientRepository;
     private final RoleRepository roleRepository;
+    private final ClientService clientService;
 
-    public List<UserDTO> getUserByRole(String name, int offset, int pageSize) {
-//        return userRepository.findByRole(name, );
-        return userRepository.findByRole(name, PageRequest.of(offset, pageSize));
-    }
 
-    public UserUpdateInfoDTO getClient(long id) {
-        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
+    public UserUpdateInfoDTO getUser(long id) {
         Optional<User> user = userRepository.findById(id);
-        userUpdateInfoDTO.setFirstName(user.get().getFirstName());
-        userUpdateInfoDTO.setLastName(user.get().getLastName());
-        userUpdateInfoDTO.setPatronymic(user.get().getPatronymic());
-        userUpdateInfoDTO.setBirth(user.get().getBirth());
-        userUpdateInfoDTO.setPhone(user.get().getPhone());
-        userUpdateInfoDTO.setPassport(user.get().getPassport());
-        userUpdateInfoDTO.setEmail(user.get().getEmail());
-        if(Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT"))
-        {
+        UserUpdateInfoDTO userUpdateInfoDTO = convertToUserUpdateInfoDTO(user.get());
+
+        if (Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT")) {
             userUpdateInfoDTO.setComment(user.get().getClient().getComment());
-        }else {
+            userUpdateInfoDTO.setStatus(user.get().getClient().getStatus().name());
+            userUpdateInfoDTO.setPassword(user.get().getClient().getPassword());
+            userUpdateInfoDTO.setLogin(user.get().getClient().getLogin());
+        } else {
             userUpdateInfoDTO.setRole(user.get().getRoles().get(0).getName());
         }
         return userUpdateInfoDTO;
     }
-
 
     @Transactional
     public void update(UserUpdateInfoDTO userUpdateInfoDTO, long id) {
@@ -64,11 +57,8 @@ public class UserService {
             BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
             clientRepository.save(client);
         } else {
-//            user.setRoles(List.of(roleRepository.findByName(userUpdateInfoDTO.getRole()).get()));
             user.setRoles(new ArrayList<>(List.of(roleRepository.findByName(userUpdateInfoDTO.getRole()).get())));
-//            user.setRoles();
             userRepository.save(user);
-//            user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
         }
 
     }
@@ -77,4 +67,22 @@ public class UserService {
     public void delete(long id) {
         userRepository.delete(userRepository.findById(id).get());
     }
+
+
+    public UserUpdateInfoDTO convertToUserUpdateInfoDTO(User user) {
+        UserUpdateInfoDTO updateInfoDTO = new UserUpdateInfoDTO();
+        updateInfoDTO.setFirstName(user.getFirstName());
+        updateInfoDTO.setLastName(user.getLastName());
+        updateInfoDTO.setPatronymic(user.getPatronymic());
+        updateInfoDTO.setBirth(user.getBirth());
+        updateInfoDTO.setPhone(user.getPhone());
+        updateInfoDTO.setPassport(user.getPassport());
+        updateInfoDTO.setEmail(user.getEmail());
+        updateInfoDTO.setStatus(user.getClient().getStatus().name());
+        updateInfoDTO.setLogin(user.getClient().getLogin());
+        updateInfoDTO.setPassword(user.getClient().getPassword());
+        return updateInfoDTO;
+    }
+
+
 }
