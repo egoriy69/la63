@@ -16,14 +16,14 @@ public class RegistrationUserDTO {
 
 
 //    @UniqueEmail(message = "этот email уже занят")
-    @Email(message = "не валидный email")
+    @Email(message = "Не валидный email")
     private String email;
 
     @UniquePhoneReg
-    @NotBlank(message = "поле не может быть пустым")
+    @NotBlank(message = "Поле не может быть пустым")
     private String phone;
 
-    @NotNull
+    @NotBlank(message = "Поле не может быть пустым")
 //    @Size(min = 6, message = "пароль должен содержать минимум 6 символов")
     private String password;
 

@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 @Constraint(validatedBy = UniquePhoneRegValidator.class)
 public @interface UniquePhoneReg {
-    public String message() default "такой пользователь существует";
+    public String message() default "Пользователь с таким телефоном существует";
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
