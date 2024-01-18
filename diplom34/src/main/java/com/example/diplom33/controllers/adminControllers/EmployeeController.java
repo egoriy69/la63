@@ -43,8 +43,8 @@ public class EmployeeController {
         userService.delete(id);
     }
 
-//    @GetMapping("/{id}")
-//    public UserUpdateInfoDTO showEmployee(@PathVariable int id) {
-//        return userService.getClient(id);
-//    }
+    @GetMapping("/{id}")
+    public UserUpdateInfoDTO showEmployee(@PathVariable int id) {
+        return userService.getUser(id);
+    }
 }

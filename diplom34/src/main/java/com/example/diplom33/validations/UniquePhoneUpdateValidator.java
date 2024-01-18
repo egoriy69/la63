@@ -29,8 +29,19 @@ public class UniquePhoneUpdateValidator implements ConstraintValidator<UniquePho
         Optional<User> userByPhone = userRepository.findByPhone(username);
 
         // Если пользователь с таким номером телефона не найден, или найден, но это текущий пользователь, то валидация проходит успешно
-        return userByPhone.isEmpty() || userByPhone.get().getPhone().equals(currentUsername);
+        return userByPhone.isEmpty() || currentUsername.equals(username);
 
-//        return userRepository.findByPhone(username).isEmpty();
+
+//        // Получите текущего пользователя из контекста
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//        String currentUsername = userDetails.getUsername();
+//
+//        // Найдите пользователя по номеру телефона
+//        Optional<User> userByPhone = userRepository.findByPhone(username);
+//
+//        // Если пользователь с таким номером телефона не найден, или найден, но это текущий пользователь, то валидация проходит успешно
+//        return userByPhone.isEmpty() || userByPhone.get().getPhone().equals(currentUsername);
+//
+////        return userRepository.findByPhone(username).isEmpty();
     }
 }

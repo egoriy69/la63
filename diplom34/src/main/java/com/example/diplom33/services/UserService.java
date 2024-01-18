@@ -5,6 +5,7 @@ import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.enumeration.ClientStatus;
+import com.example.diplom33.exceptions.NoSuchException;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
@@ -36,7 +37,10 @@ public class UserService {
 
     public UserUpdateInfoDTO getUser(long id) {
         Optional<User> user = userRepository.findById(id);
+
         UserUpdateInfoDTO userUpdateInfoDTO = convertToUserUpdateInfoDTO(user.get());
+
+
 
         if (Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT")) {
             userUpdateInfoDTO.setComment(user.get().getClient().getComment());
@@ -52,6 +56,11 @@ public class UserService {
     @Transactional
     public void update(UserUpdateInfoDTO userUpdateInfoDTO, long id) {
         User user = userRepository.findByIdForUpdate(id);
+
+        Optional<User> existingUser = userRepository.findByPhone(userUpdateInfoDTO.getPhone());
+        if (existingUser.isPresent() && !existingUser.get().getId().equals(id)) {
+            throw new NoSuchException("Пользователь с таким номером телефона уже существует");
+        }
         BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             Client client = clientRepository.findByUserIdForUpdate(id);
@@ -79,9 +88,9 @@ public class UserService {
         updateInfoDTO.setPhone(user.getPhone());
         updateInfoDTO.setPassport(user.getPassport());
         updateInfoDTO.setEmail(user.getEmail());
-        updateInfoDTO.setStatus(user.getClient().getStatus().name());
-        updateInfoDTO.setLogin(user.getClient().getLogin());
-        updateInfoDTO.setPassword(user.getClient().getPassword());
+//        updateInfoDTO.setStatus(user.getClient().getStatus().name());
+//        updateInfoDTO.setLogin(user.getClient().getLogin());
+//        updateInfoDTO.setPassword(user.getClient().getPassword());
         return updateInfoDTO;
     }
 
