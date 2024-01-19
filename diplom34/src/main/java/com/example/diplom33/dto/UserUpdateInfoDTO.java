@@ -23,7 +23,7 @@ public class UserUpdateInfoDTO {
     private Date birth;
 
     @NotBlank(message = "поле не может быть пустым")
-    @UniquePhoneUpdate
+//    @UniquePhoneUpdate
     private String phone;
 
     private String passport;
