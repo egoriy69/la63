@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FullNameUserDTO {
-
+public class UserWithRoleDTO {
     private long id;
     private String lastName;
     private String firstName;
     private String patronymic;
-//    private String roleName;
-
+    private String roleName;
 }

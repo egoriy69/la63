@@ -1,15 +1,13 @@
 package com.example.diplom33.controllers;
 
 
-import com.example.diplom33.dto.JwtRequest;
-import com.example.diplom33.dto.JwtResponse;
-import com.example.diplom33.dto.RefreshTokenRequest;
-import com.example.diplom33.dto.RegistrationUserDTO;
+import com.example.diplom33.dto.*;
 import com.example.diplom33.exceptions.NoSuchException;
 import com.example.diplom33.models.RefreshToken;
 import com.example.diplom33.security.JwtUtil;
 import com.example.diplom33.services.AuthService;
 import com.example.diplom33.services.RefreshTokenService;
+import com.example.diplom33.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,6 +30,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
     private final UserDetailsService userDetailsService;
@@ -56,7 +55,6 @@ public class AuthController {
                 .token(jwtUtil.generateToken(userDetails))
                 .refreshToken(refreshTokenService.createRefreshToken(jwtRequest.getPhone()).getToken())
                 .build());
-
     }
 
     @PostMapping("/signup")
@@ -86,6 +84,11 @@ public class AuthController {
                             .refreshToken(refreshTokenRequest.getRefreshToken())
                             .build();
                 }).orElseThrow(() -> new NoSuchException("Нужна повторная авторизация"));
+    }
+
+    @GetMapping("/user")
+    public UserWithRoleDTO getFullName(Principal principal){
+        return userService.getUserWithRole(principal);
     }
 }
 

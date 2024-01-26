@@ -4,8 +4,10 @@ import com.example.diplom33.enumeration.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Data
@@ -29,6 +31,10 @@ public class Task {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Date timestamp;
 
 
     @ManyToOne

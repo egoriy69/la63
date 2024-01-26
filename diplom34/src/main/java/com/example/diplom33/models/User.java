@@ -1,5 +1,6 @@
 package com.example.diplom33.models;
 
+import com.example.diplom33.enumeration.ConnectionStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -52,6 +53,9 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Employee employee;
+
+    @Column(name = "connection_status ")
+    private ConnectionStatus status;
 
 
     @ManyToMany
