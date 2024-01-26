@@ -3,6 +3,7 @@ package com.example.diplom33.repositories;
 
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.enumeration.ClientStatus;
+import com.example.diplom33.enumeration.ConnectionStatus;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Role;
 import com.example.diplom33.models.User;
@@ -24,12 +25,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
 
-//    Optional<User> findByClient(Client client);
 
-    List<User> findByClient(Client client);
+    Optional<List<User>> findAllByStatus(ConnectionStatus status);
     List<User> findByClientStatus(ClientStatus clientStatus, Pageable pageable);
 
-    Optional<User> findByFirstName(String name);
+
 
     //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = ?1")

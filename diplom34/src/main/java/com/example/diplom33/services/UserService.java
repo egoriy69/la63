@@ -1,10 +1,12 @@
 package com.example.diplom33.services;
 
 
+import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.enumeration.ClientStatus;
+import com.example.diplom33.enumeration.ConnectionStatus;
 import com.example.diplom33.exceptions.NoSuchException;
 import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Task;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -92,6 +95,34 @@ public class UserService {
 //        updateInfoDTO.setLogin(user.getClient().getLogin());
 //        updateInfoDTO.setPassword(user.getClient().getPassword());
         return updateInfoDTO;
+    }
+
+
+    public void saveUser(Principal principal){
+        User user = userRepository.findByPhone(principal.getName()).get();
+        user.setStatus(ConnectionStatus.ONLINE);
+        userRepository.save(user);
+    }
+
+    public void disconnect(Principal principal){
+        User user = userRepository.findByPhone(principal.getName()).get();
+        user.setStatus(ConnectionStatus.OFFLINE);
+        userRepository.save(user);
+    }
+
+    public List<User> findConnectUser(){
+        return userRepository.findAllByStatus(ConnectionStatus.ONLINE).get();
+    }
+
+
+    public FullNameUserDTO convertToFullNameUserDTO(Principal principal) {
+        User user = userRepository.findByPhone(principal.getName()).get();
+        FullNameUserDTO userDTO = new FullNameUserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPatronymic(user.getPatronymic());
+        return userDTO;
     }
 
 
