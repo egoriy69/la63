@@ -24,7 +24,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(userRepository.findByPhone(phone).get())
                 .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plusMillis(1000000)).build();
+                .expiryDate(Instant.now().plusMillis(100000000)).build();
         return  refreshTokenRepository.save(refreshToken);
     }
 
