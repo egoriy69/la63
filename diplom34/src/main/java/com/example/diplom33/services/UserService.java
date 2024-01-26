@@ -1,24 +1,18 @@
 package com.example.diplom33.services;
 
 
-import com.example.diplom33.dto.FullNameUserDTO;
-import com.example.diplom33.dto.TaskGetDTO;
-import com.example.diplom33.dto.UserUpdateInfoDTO;
-import com.example.diplom33.dto.UserDTO;
+import com.example.diplom33.dto.*;
 import com.example.diplom33.enumeration.ClientStatus;
 import com.example.diplom33.enumeration.ConnectionStatus;
 import com.example.diplom33.exceptions.NoSuchException;
 import com.example.diplom33.models.Client;
-import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.ClientRepository;
-import com.example.diplom33.repositories.RefreshTokenRepository;
 
 import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,20 +76,12 @@ public class UserService {
     }
 
 
-    public UserUpdateInfoDTO convertToUserUpdateInfoDTO(User user) {
-        UserUpdateInfoDTO updateInfoDTO = new UserUpdateInfoDTO();
-        updateInfoDTO.setFirstName(user.getFirstName());
-        updateInfoDTO.setLastName(user.getLastName());
-        updateInfoDTO.setPatronymic(user.getPatronymic());
-        updateInfoDTO.setBirth(user.getBirth());
-        updateInfoDTO.setPhone(user.getPhone());
-        updateInfoDTO.setPassport(user.getPassport());
-        updateInfoDTO.setEmail(user.getEmail());
-//        updateInfoDTO.setStatus(user.getClient().getStatus().name());
-//        updateInfoDTO.setLogin(user.getClient().getLogin());
-//        updateInfoDTO.setPassword(user.getClient().getPassword());
-        return updateInfoDTO;
+    public UserWithRoleDTO getUserWithRole(Principal principal){
+        return convertToUserWithRoleDTO(principal);
     }
+
+
+
 
 
     public void saveUser(Principal principal){
@@ -122,7 +108,30 @@ public class UserService {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setPatronymic(user.getPatronymic());
+//        userDTO.setRoleName(user.getRoles().get(0).getName());
         return userDTO;
+    }
+    public UserWithRoleDTO convertToUserWithRoleDTO(Principal principal) {
+        User user = userRepository.findByPhone(principal.getName()).get();
+        UserWithRoleDTO userDTO = new UserWithRoleDTO();
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPatronymic(user.getPatronymic());
+        userDTO.setRoleName(user.getRoles().get(0).getName());
+        return userDTO;
+    }
+
+    public UserUpdateInfoDTO convertToUserUpdateInfoDTO(User user) {
+        UserUpdateInfoDTO updateInfoDTO = new UserUpdateInfoDTO();
+        updateInfoDTO.setFirstName(user.getFirstName());
+        updateInfoDTO.setLastName(user.getLastName());
+        updateInfoDTO.setPatronymic(user.getPatronymic());
+        updateInfoDTO.setBirth(user.getBirth());
+        updateInfoDTO.setPhone(user.getPhone());
+        updateInfoDTO.setPassport(user.getPassport());
+        updateInfoDTO.setEmail(user.getEmail());
+        return updateInfoDTO;
     }
 
 
