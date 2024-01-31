@@ -122,6 +122,7 @@ public class TaskService {
 
     private TaskGetDTO convertToTaskGetDTO(Task task) {
         TaskGetDTO dto = new TaskGetDTO();
+        dto.setId(task.getId());
         dto.setName(task.getName());
         dto.setExpiryDate(task.getExpiryDate());
         dto.setStatus(task.getStatus().name());
