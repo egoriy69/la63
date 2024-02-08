@@ -81,7 +81,8 @@ public class TaskService {
         taskGetDTO.setName(task.getName());
         taskGetDTO.setComment(task.getComment());
         taskGetDTO.setExpiryDate(task.getExpiryDate());
-        taskGetDTO.setRecipientName(task.getEmployeeRecipient().getUser().getFirstName()+" "+task.getEmployeeRecipient().getUser().getLastName());
+//        taskGetDTO.setRecipientName(task.getEmployeeRecipient().getUser().getFirstName()+" "+task.getEmployeeRecipient().getUser().getLastName());
+        taskGetDTO.setRecipientId(task.getEmployeeRecipient().getId());
         taskGetDTO.setTimestamp(task.getTimestamp());
         return taskGetDTO;
     }

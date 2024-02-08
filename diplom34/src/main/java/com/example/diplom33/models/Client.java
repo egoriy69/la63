@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.ISBN;
 import org.hibernate.validator.internal.util.stereotypes.ThreadSafe;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -35,9 +36,11 @@ public class Client {
     @Column(name = "login")
     private String login;
 
-
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
+
+    @OneToMany(mappedBy = "client")
+    private List<Deal> deals;
 }

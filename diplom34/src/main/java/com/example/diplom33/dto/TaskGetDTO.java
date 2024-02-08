@@ -16,6 +16,6 @@ public class TaskGetDTO {
 
     private Date timestamp;
 
-    private String recipientName;
+    private long recipientId;
 
 }
