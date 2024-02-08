@@ -26,7 +26,6 @@ public class Employee {
     private User user;
 
 
-
     @OneToMany(mappedBy = "employeeRecipient")
     private List<Task> assignedTasks;  // Список задач, которые назначены этому сотруднику
 

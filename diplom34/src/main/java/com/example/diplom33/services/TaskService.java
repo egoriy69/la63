@@ -1,5 +1,6 @@
 package com.example.diplom33.services;
 
+import com.example.diplom33.dto.TaskAllGetDTO;
 import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.enumeration.TaskStatus;
 import com.example.diplom33.dto.TaskDTO;
@@ -20,7 +21,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +33,7 @@ public class TaskService {
     private final EmployeeRepository employeeRepository;
 
     @Transactional
-    public Optional<List<TaskGetDTO>> getAllTasksForUser(Principal principal, String status) {
+    public Optional<List<TaskAllGetDTO>> getAllTasksForUser(Principal principal, String status) {
         String phone = principal.getName();
         User user = userRepository.findByPhone(phone).orElse(null);
         updateAllTaskStatus();
@@ -56,7 +56,7 @@ public class TaskService {
     }
 
     @Transactional
-    public Optional<List<TaskGetDTO>> getAllTasksForAdmin(long id, String status) {
+    public Optional<List<TaskAllGetDTO>> getAllTasksForAdmin(long id, String status) {
         updateAllTaskStatus();
 
         List<Task> tasks = switch (status) {
@@ -75,9 +75,22 @@ public class TaskService {
        return Optional.ofNullable(tasks).map(tasksList -> tasksList.stream().map(this::convertToTaskGetDTO).collect(Collectors.toList()));
     }
 
-    public Optional<Task> getTask(long id){
-        return taskRepository.findById(id);
+    public TaskGetDTO getTask(long id){
+        Task task = taskRepository.findById(id).get();
+        TaskGetDTO taskGetDTO = new TaskGetDTO();
+        taskGetDTO.setName(task.getName());
+        taskGetDTO.setComment(task.getComment());
+        taskGetDTO.setExpiryDate(task.getExpiryDate());
+//        taskGetDTO.setRecipientName(task.getEmployeeRecipient().getUser().getFirstName()+" "+task.getEmployeeRecipient().getUser().getLastName());
+        taskGetDTO.setRecipientId(task.getEmployeeRecipient().getId());
+        taskGetDTO.setTimestamp(task.getTimestamp());
+        return taskGetDTO;
     }
+
+//    public TaskGetDTO getEditTask(long id){
+//        Task task = taskRepository.findById(id).get();
+//        return convertToTaskGetDTO(task);
+//    }
 
     @Transactional
     public void deleteTask(long id){
@@ -120,8 +133,8 @@ public class TaskService {
         }
     }
 
-    private TaskGetDTO convertToTaskGetDTO(Task task) {
-        TaskGetDTO dto = new TaskGetDTO();
+    private TaskAllGetDTO convertToTaskGetDTO(Task task) {
+        TaskAllGetDTO dto = new TaskAllGetDTO();
         dto.setId(task.getId());
         dto.setName(task.getName());
         dto.setExpiryDate(task.getExpiryDate());

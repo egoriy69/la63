@@ -19,29 +19,18 @@ public class ChatController {
 
     private final UserService userService;
 
-//    @MessageMapping("/chat.sendMessage")
-//    @SendTo("/topic/public")
-//    public ChatMessage sendMessage(
-//            @Payload ChatMessage chatMessage
-//    ) {
-//        return chatMessage;
-//    }
-//
-//    @MessageMapping("/chat.addUser")
-//    @SendTo("/topic/public")
-//    public ChatMessage addUser(
-//            @Payload ChatMessage chatMessage,
-//            SimpMessageHeaderAccessor headerAccessor
-//    ) {
-//        // Add username in web socket session
-//        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-//        return chatMessage;
-//    }
 
     @MessageMapping("/user.addUser")
-//    @SendTo
-    public FullNameUserDTO addUser(Principal principal){
+//    @SendTo("/user/topic")
+    public FullNameUserDTO addUser(@Payload Principal principal){
         userService.saveUser(principal);
+        return userService.convertToFullNameUserDTO(principal);
+    }
+
+    @MessageMapping("/user.disconnectUser")
+//    @SendTo("/user/topic")
+    public FullNameUserDTO disconnect(@Payload Principal principal){
+        userService.disconnect(principal);
         return userService.convertToFullNameUserDTO(principal);
     }
 }

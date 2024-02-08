@@ -1,12 +1,8 @@
 package com.example.diplom33.services;
 
 
-import com.example.diplom33.dto.TaskGetDTO;
 import com.example.diplom33.dto.UserDTO;
-import com.example.diplom33.dto.UserUpdateInfoDTO;
 import com.example.diplom33.enumeration.ClientStatus;
-import com.example.diplom33.enumeration.TaskStatus;
-import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.UserRepository;
@@ -15,8 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
