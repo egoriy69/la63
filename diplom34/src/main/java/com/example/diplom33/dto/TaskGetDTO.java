@@ -3,19 +3,19 @@ package com.example.diplom33.dto;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Data
 public class TaskGetDTO {
 
-    private long id;
-
     private String name;
+
+    private String comment;
 
     private Instant expiryDate;
 
-    private String status;
+    private Date timestamp;
 
-    private String recipient;
+    private String recipientName;
 
-    private String producer;
 }
