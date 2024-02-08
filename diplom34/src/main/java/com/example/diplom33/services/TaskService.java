@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,6 +48,8 @@ public class TaskService {
             default -> throw new IllegalArgumentException("Invalid status: " + status);
         };
 
+        tasks.sort(Comparator.comparing(Task::getExpiryDate));
+
         return Optional.ofNullable(tasks)
                 .map(taskList ->
                         taskList.stream()
@@ -72,7 +75,9 @@ public class TaskService {
             default -> throw new IllegalArgumentException("Invalid status: " + status);
         };
 
-       return Optional.ofNullable(tasks).map(tasksList -> tasksList.stream().map(this::convertToTaskGetDTO).collect(Collectors.toList()));
+        tasks.sort(Comparator.comparing(Task::getExpiryDate));
+
+        return Optional.ofNullable(tasks).map(tasksList -> tasksList.stream().map(this::convertToTaskGetDTO).collect(Collectors.toList()));
     }
 
     public TaskGetDTO getTask(long id){
