@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Integer> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
 //    @Lock(LockModeType.OPTIMISTIC)
     @Query("select u from Client u where u.user.id = ?1")
     Client findByUserIdForUpdate(Long id);

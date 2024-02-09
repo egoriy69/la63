@@ -30,4 +30,10 @@ public class Deal {
 
     @OneToMany(mappedBy = "deal")
     private List<ProgressDeal> progressDeals;
+
+    @OneToMany(mappedBy = "deal")
+    private List<Mail> mails;
+
+    @OneToMany(mappedBy = "deal")
+    private List<Payment> payments;
 }
