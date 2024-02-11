@@ -1,13 +1,14 @@
 package com.example.diplom33.repositories;
 
-import com.example.diplom33.models.Deal;
+
+import com.example.diplom33.models.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface DealRepository extends JpaRepository<Deal, Integer> {
+public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    List<Deal> findAllByClientId(Long client_id);
+    List<Payment> findAllByDealId(int deal_id);
 }
