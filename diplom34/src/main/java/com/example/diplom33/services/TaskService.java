@@ -120,7 +120,8 @@ public class TaskService {
     public void update(TaskDTO taskDTO, long id) {
         Task task = taskRepository.findById(id).get();
         BeanUtils.copyProperties(taskDTO, task, "id");
-        task.setEmployeeRecipient(employeeRepository.findById(taskDTO.getRecipientId()).get());
+//        task.setEmployeeRecipient(employeeRepository.findById(taskDTO.getRecipientId()).get());
+        task.setStatus(taskDTO.getTaskStatus());
         taskRepository.save(task);
     }
 

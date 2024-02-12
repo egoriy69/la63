@@ -58,7 +58,7 @@ public class DealController {
 
     @PostMapping("/payment/new/{id}")
     public void createPayment(@PathVariable int id, @RequestBody PaymentDTO paymentDTO){
-        dealService.
+        dealService.createPayment(id, paymentDTO);
     }
 
 }

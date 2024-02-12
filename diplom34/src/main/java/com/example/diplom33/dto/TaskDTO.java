@@ -1,5 +1,6 @@
 package com.example.diplom33.dto;
 
+import com.example.diplom33.enumeration.TaskStatus;
 import lombok.Data;
 
 import java.time.Instant;
@@ -20,4 +21,5 @@ public class TaskDTO {
 
     private long producerId;
 
+    private TaskStatus taskStatus;
 }
