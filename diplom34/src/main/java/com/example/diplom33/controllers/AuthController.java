@@ -50,10 +50,13 @@ public class AuthController {
             throw new NoSuchException("Неправильный логин или пароль");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getPhone());
+        UserWithRoleDTO userWithRoleDTO = userService.getUserWithRoleSign(userDetails);
+
 
         return ResponseEntity.ok(JwtResponse.builder()
                 .token(jwtUtil.generateToken(userDetails))
                 .refreshToken(refreshTokenService.createRefreshToken(jwtRequest.getPhone()).getToken())
+                .user(userWithRoleDTO)
                 .build());
     }
 

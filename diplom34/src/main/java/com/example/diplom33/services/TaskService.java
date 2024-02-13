@@ -80,7 +80,7 @@ public class TaskService {
         return Optional.ofNullable(tasks).map(tasksList -> tasksList.stream().map(this::convertToTaskGetDTO).collect(Collectors.toList()));
     }
 
-    public TaskGetDTO getTask(long id){
+    public TaskGetDTO getTask(long id) {
         Task task = taskRepository.findById(id).get();
         TaskGetDTO taskGetDTO = new TaskGetDTO();
         taskGetDTO.setName(task.getName());
@@ -98,7 +98,7 @@ public class TaskService {
 //    }
 
     @Transactional
-    public void deleteTask(long id){
+    public void deleteTask(long id) {
         taskRepository.delete(taskRepository.findById(id).get());
     }
 
@@ -119,7 +119,16 @@ public class TaskService {
     @Transactional
     public void update(TaskDTO taskDTO, long id) {
         Task task = taskRepository.findById(id).get();
+
+
+        Instant data = task.getExpiryDate();
+        if (taskDTO.getExpiryDate() == null) {
+            taskDTO.setExpiryDate(data);
+
+        }
         BeanUtils.copyProperties(taskDTO, task, "id");
+
+
 //        task.setEmployeeRecipient(employeeRepository.findById(taskDTO.getRecipientId()).get());
         task.setStatus(taskDTO.getTaskStatus());
         taskRepository.save(task);
@@ -150,10 +159,10 @@ public class TaskService {
         return dto;
     }
 
-     @Transactional
+    @Transactional
     public void updateStatus(@PathVariable long id, String status) {
-         Task task = taskRepository.findById(id).get();
-         task.setStatus(TaskStatus.valueOf(status.toUpperCase()));
-         taskRepository.save(task);
+        Task task = taskRepository.findById(id).get();
+        task.setStatus(TaskStatus.valueOf(status.toUpperCase()));
+        taskRepository.save(task);
     }
 }
