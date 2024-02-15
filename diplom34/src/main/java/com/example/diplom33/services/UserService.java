@@ -13,6 +13,7 @@ import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,6 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
 
         UserUpdateInfoDTO userUpdateInfoDTO = convertToUserUpdateInfoDTO(user.get());
-
 
 
         if (Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT")) {
@@ -76,28 +76,42 @@ public class UserService {
     }
 
 
-    public UserWithRoleDTO getUserWithRole(Principal principal){
+    public UserWithRoleDTO getUserWithRole(Principal principal) {
         return convertToUserWithRoleDTO(principal);
     }
 
 
+    public UserWithRoleDTO getUserWithRoleSign(UserDetails userDetails) {
+        return convertToUserWithRoleSignDTO(userDetails);
+    }
 
 
-
-    public void saveUser(Principal principal){
+    public void saveUser(Principal principal) {
         User user = userRepository.findByPhone(principal.getName()).get();
         user.setStatus(ConnectionStatus.ONLINE);
         userRepository.save(user);
     }
 
-    public void disconnect(Principal principal){
+    public void disconnect(Principal principal) {
         User user = userRepository.findByPhone(principal.getName()).get();
         user.setStatus(ConnectionStatus.OFFLINE);
         userRepository.save(user);
     }
 
-    public List<User> findConnectUser(){
+    public List<User> findConnectUser() {
         return userRepository.findAllByStatus(ConnectionStatus.ONLINE).get();
+    }
+
+
+    public UserWithRoleDTO convertToUserWithRoleSignDTO(UserDetails userDetails) {
+        UserWithRoleDTO userDTO = new UserWithRoleDTO();
+        User user = userRepository.findByPhone(userDetails.getUsername()).get();
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPatronymic(user.getPatronymic());
+        userDTO.setRoleName(user.getRoles().get(0).getName());
+        return userDTO;
     }
 
 
@@ -111,6 +125,7 @@ public class UserService {
 //        userDTO.setRoleName(user.getRoles().get(0).getName());
         return userDTO;
     }
+
     public UserWithRoleDTO convertToUserWithRoleDTO(Principal principal) {
         User user = userRepository.findByPhone(principal.getName()).get();
         UserWithRoleDTO userDTO = new UserWithRoleDTO();
