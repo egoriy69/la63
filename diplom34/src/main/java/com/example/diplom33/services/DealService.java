@@ -36,8 +36,9 @@ public class DealService {
     private final PaymentRepository paymentRepository;
 
 
-    public List<DealDTO> getAllDeals(long clientId) {
-        List<Deal> deals = dealRepository.findAllByClientId(clientId);
+    public List<DealDTO> getAllDeals(long id) {
+//        List<Deal> deals = dealRepository.findAllByClientId(clientId);
+        List<Deal> deals = dealRepository.findAllByClientId(clientRepository.findByUserId(userRepository.findById(id).get().getId()).getId());
         return convertToDealDTO(deals);
     }
 

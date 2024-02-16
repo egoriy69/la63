@@ -138,7 +138,7 @@ public class TaskService {
     public void updateAllTaskStatus() {
         List<Task> allTasks = taskRepository.findAll();
         for (Task task : allTasks) {
-            if (task.getExpiryDate().isBefore(Instant.now()) && task.getStatus() != TaskStatus.EXPIRED) {
+            if (task.getExpiryDate().isBefore(Instant.now()) && task.getStatus() != TaskStatus.EXPIRED && task.getStatus() != TaskStatus.COMPLETED) {
                 task.setStatus(TaskStatus.EXPIRED);
                 taskRepository.save(task);
             }
