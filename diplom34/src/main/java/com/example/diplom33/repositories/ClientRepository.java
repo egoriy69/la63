@@ -21,4 +21,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Client findByUserIdForUpdate(Long id);
 
     Optional<List<Client>> findByStatus(ClientStatus clientStatus, PageRequest of);
+
+    Client findByUserId(Long id);
 }

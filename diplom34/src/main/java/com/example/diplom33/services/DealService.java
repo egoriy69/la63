@@ -27,6 +27,8 @@ public class DealService {
     private final DealRepository dealRepository;
     private final ClientRepository clientRepository;
 
+    private final UserRepository userRepository;
+
     private final ProgressDealRepository progressDealRepository;
 
     private final MailRepository mailRepository;
@@ -47,7 +49,8 @@ public class DealService {
     public void createDeal(DealDTO dealDTO, long id){
         Deal deal = new Deal();
         deal.setName(dealDTO.getName());
-        deal.setClient(clientRepository.findById(id).get());
+//        deal.setClient(clientRepository.findById(id).get());
+        deal.setClient(clientRepository.findByUserId(userRepository.findById(id).get().getId()));
         dealRepository.save(deal);
     }
 
