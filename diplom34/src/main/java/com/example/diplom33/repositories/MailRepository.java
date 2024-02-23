@@ -10,4 +10,6 @@ import java.util.List;
 public interface MailRepository extends JpaRepository<Mail, Integer> {
 
     List<Mail> findAllByDealId(int deal_id);
+
+    Mail findByDealId(int id);
 }

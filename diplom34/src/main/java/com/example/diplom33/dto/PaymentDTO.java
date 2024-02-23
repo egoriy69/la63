@@ -23,4 +23,6 @@ public class PaymentDTO {
     private PaymentStatus status;
 
     private String bank;
+
+    private int id;
 }

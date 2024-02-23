@@ -16,5 +16,5 @@ public class ProgressDealDTO {
 
     private String comment;
 
-//    private int id;
+    private int id;
 }

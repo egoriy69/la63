@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ProgressDealRepository extends JpaRepository<ProgressDeal, Integer> {
     List<ProgressDeal> findAllByDealId(int deal_id);
+
+    ProgressDeal findByDealId(int id);
 }
