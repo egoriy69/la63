@@ -1,13 +1,22 @@
-#version: '3.1'
-#
-#services:
-#  db:
+version: '3.1'
+services:
+  la63:
+    image: la63
+    ports:
+      - '8085:8085'
+
+  mysql:
+    image: mysql
+    ports:
+      - '3307:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: bestuserr
+      MYSQL_DATABASE: diplom2_db
+
+#  mysql:
 #    image: mysql
-#    restart: always
-#    ports:
-#      - "3306:3306"
 #    environment:
+#      MYSQL_ROOT_PASSWORD: bestuserr
 #      MYSQL_USER: bestuserr
 #      MYSQL_PASSWORD: bestuserr
 #      MYSQL_DB: diplom2_db
-#

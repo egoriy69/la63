@@ -96,7 +96,7 @@ public class DealService {
     private List<PaymentDTO> convertToPaymentDTO(List<Payment> payments) {
         List<PaymentDTO> paymentDTOS= new ArrayList<>();
         for (Payment payment: payments){
-            paymentDTOS.add(new PaymentDTO(payment.getCreatedAt(), payment.getSum(), payment.getStatus(), payment.getBank()));
+            paymentDTOS.add(new PaymentDTO(payment.getCreatedAt(), payment.getSum(), payment.getStatus(), payment.getBank(), payment.getId()));
         }
         return paymentDTOS;
     }
@@ -104,7 +104,7 @@ public class DealService {
     private List<MailDTO> convertToMailDTO(List<Mail> mails) {
         List<MailDTO> mailDTOS= new ArrayList<>();
         for (Mail mail: mails){
-            mailDTOS.add(new MailDTO(mail.getName(), mail.getRpo(), mail.getCreatedAt(), mail.getDestination(), mail.getSum()));
+            mailDTOS.add(new MailDTO(mail.getName(), mail.getRpo(), mail.getCreatedAt(), mail.getDestination(), mail.getSum(), mail.getId()));
         }
         return mailDTOS;
     }
@@ -122,11 +122,26 @@ public class DealService {
     private List<ProgressDealDTO> convertToProgressDealDTO(List<ProgressDeal> progressDeals){
         List<ProgressDealDTO> progressDealDTOS = new ArrayList<>();
         for (ProgressDeal progressDeal: progressDeals){
-            progressDealDTOS.add(new ProgressDealDTO(progressDeal.getCreatedAt(), progressDeal.getComment()));
+            progressDealDTOS.add(new ProgressDealDTO(progressDeal.getCreatedAt(), progressDeal.getComment(), progressDeal.getId()));
         }
         return progressDealDTOS;
     }
 
+    public void deleteDeal(int id) {
+        dealRepository.delete(dealRepository.findById(id).get());
+    }
+
+    public void deleteProgressDeal(int id) {
+        progressDealRepository.delete(progressDealRepository.findById(id).get());
+    }
+
+    public void deleteMail(int id) {
+        mailRepository.delete(mailRepository.findById(id).get());
+    }
+
+    public void deletePayment(int id) {
+        paymentRepository.delete(paymentRepository.findById(id).get());
+    }
 
 
 //    private DealDTO convertToDTO(Deal deal) {

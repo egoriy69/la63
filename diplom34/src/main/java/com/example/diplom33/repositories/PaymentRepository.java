@@ -11,4 +11,6 @@ import java.util.List;
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
     List<Payment> findAllByDealId(int deal_id);
+
+    Payment findByDealId(int id);
 }

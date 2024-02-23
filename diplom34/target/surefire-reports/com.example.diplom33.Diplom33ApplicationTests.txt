@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.diplom33.Diplom33ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.065 s -- in com.example.diplom33.Diplom33ApplicationTests

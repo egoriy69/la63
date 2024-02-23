@@ -35,10 +35,19 @@ public class DealController {
     public void createDeal(@RequestBody DealDTO dealDTO, @PathVariable long id) {
         dealService.createDeal(dealDTO, id);
     }
+    @DeleteMapping("/{id}")//id deal
+    public void deleteDeal(@PathVariable int id){
+        dealService.deleteDeal(id);
+    }
 
     @PostMapping("/progress/new/{id}")
     public void createProgressDeal(@PathVariable int id, @RequestBody ProgressDealDTO progressDealDTO) {
         dealService.createProgressDeal(id, progressDealDTO);
+    }
+
+    @DeleteMapping("progress/{id}")
+    public void deleteProgressDeal(@PathVariable int id){
+        dealService.deleteProgressDeal(id);
     }
 
     @GetMapping("/mail/{id}")
@@ -51,6 +60,11 @@ public class DealController {
         dealService.createMail(id, mailDTO);
     }
 
+    @DeleteMapping("mail/{id}")
+    public void deleteMail(@PathVariable int id){
+        dealService.deleteMail(id);
+    }
+
     @GetMapping("/payment/{id}")
     public List<PaymentDTO> getPayment(@PathVariable int id){
        return dealService.getPayment(id);
@@ -59,6 +73,11 @@ public class DealController {
     @PostMapping("/payment/new/{id}")
     public void createPayment(@PathVariable int id, @RequestBody PaymentDTO paymentDTO){
         dealService.createPayment(id, paymentDTO);
+    }
+
+    @DeleteMapping("payment/{id}")
+    public void deletePayment(@PathVariable int id){
+        dealService.deletePayment(id);
     }
 
 }
