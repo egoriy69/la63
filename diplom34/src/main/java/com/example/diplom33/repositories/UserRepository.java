@@ -41,4 +41,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT new com.example.diplom33.dto.UserDTO(u.id, u.phone, u.email, u.firstName, u.lastName, u.patronymic) FROM User u JOIN u.roles r WHERE r.name = :roleName")
     List<UserDTO> findByRole(@Param("roleName") String roleName, PageRequest of);
 
+//    List<UserDTO> findByFirstNameContainingAndLastNameContainingAndPatronymicContaining(String name, String name1, String name2, Pageable paging);
+
+    List<User> findByFirstNameContainingOrLastNameContainingOrPatronymicContaining(String name, String name1, String name2, Pageable paging);
 }

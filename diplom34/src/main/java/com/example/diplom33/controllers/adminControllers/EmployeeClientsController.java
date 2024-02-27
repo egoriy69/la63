@@ -1,7 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
 
-
 import com.example.diplom33.dto.UserCreateInfoDTO;
 import com.example.diplom33.dto.UserDTO;
 import com.example.diplom33.dto.UserUpdateInfoDTO;
@@ -27,9 +26,11 @@ public class EmployeeClientsController {
     @GetMapping
     public Optional<List<UserDTO>> getAllClients(@RequestParam(defaultValue = "0") int offset,
                                                  @RequestParam(defaultValue = "10") int pageSize,
-                                                 @RequestParam(defaultValue = "in_progress") String status) {
-        return clientService.getAllClient(status, offset, pageSize);
+                                                 @RequestParam(defaultValue = "in_progress") String status,
+                                                 @RequestParam(required = false) String fullName) {
+        return clientService.getAllClient(status, offset, pageSize, fullName);
     }
+
 
     @GetMapping("/{id}")
     public UserUpdateInfoDTO showClient(@PathVariable int id) {
@@ -42,12 +43,12 @@ public class EmployeeClientsController {
     }
 
     @PostMapping("/new")
-    public void createClient(@RequestBody @Valid UserCreateInfoDTO userCreateInfoDTO){
+    public void createClient(@RequestBody @Valid UserCreateInfoDTO userCreateInfoDTO) {
         employeeService.createUser(userCreateInfoDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClient(@PathVariable long id){
+    public void deleteClient(@PathVariable long id) {
         userService.delete(id);
     }
 
