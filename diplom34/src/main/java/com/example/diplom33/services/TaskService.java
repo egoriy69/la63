@@ -127,9 +127,6 @@ public class TaskService {
 
         }
         BeanUtils.copyProperties(taskDTO, task, "id");
-
-
-//        task.setEmployeeRecipient(employeeRepository.findById(taskDTO.getRecipientId()).get());
         task.setStatus(taskDTO.getTaskStatus());
         taskRepository.save(task);
     }

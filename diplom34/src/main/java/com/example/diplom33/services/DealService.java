@@ -37,7 +37,6 @@ public class DealService {
 
 
     public List<DealDTO> getAllDeals(long id) {
-//        List<Deal> deals = dealRepository.findAllByClientId(clientId);
         List<Deal> deals = dealRepository.findAllByClientId(clientRepository.findByUserId(userRepository.findById(id).get().getId()).getId());
         return convertToDealDTO(deals);
     }
@@ -50,7 +49,6 @@ public class DealService {
     public void createDeal(DealDTO dealDTO, long id){
         Deal deal = new Deal();
         deal.setName(dealDTO.getName());
-//        deal.setClient(clientRepository.findById(id).get());
         deal.setClient(clientRepository.findByUserId(userRepository.findById(id).get().getId()));
         dealRepository.save(deal);
     }
@@ -113,7 +111,6 @@ public class DealService {
     private List<DealDTO> convertToDealDTO(List<Deal> deals) {
         List<DealDTO> dealDTOS = new ArrayList<>();
         for (Deal dealEntity : deals) {
-//            caseDTOs.add(convertToDTO(caseEntity));
             dealDTOS.add(new DealDTO(dealEntity.getName(), dealEntity.getId()));
         }
         return dealDTOS;

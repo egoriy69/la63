@@ -29,25 +29,6 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final ElasticsearchOperations elasticsearchOperations;
 
-//    public Optional<List<UserDTO>> getAllClient(String status, int offset, int pageSize) {
-//        List<User> users =
-//                switch (status) {
-//                    case "in_progress" ->
-//                    userRepository.findByClientStatus(ClientStatus.IN_PROGRESS, PageRequest.of(offset, pageSize));
-//                    case "completed" ->
-//                            userRepository.findByClientStatus(ClientStatus.COMPLETED, PageRequest.of(offset, pageSize));
-//                    case "planned" ->
-//                            userRepository.findByClientStatus(ClientStatus.PLANNED, PageRequest.of(offset, pageSize));
-//                    default -> throw new IllegalArgumentException("Invalid status: " + status);
-//
-//                };
-//        return Optional.ofNullable(users)
-//                .map(taskList ->
-//                        taskList.stream()
-//                                .map(this::convertToUserDTO)
-//                                .collect(Collectors.toList())
-//                );
-//    }
 
     public Optional<List<UserDTO>> getAllClient(String status, int offset, int pageSize, String fullName) {
         Pageable paging = PageRequest.of(offset, pageSize);
@@ -71,8 +52,7 @@ public class ClientService {
             for (String name : names) {
                 List<User> users = userRepository.findByFirstNameContainingOrLastNameContainingOrPatronymicContaining(name, name, name, paging);
                 userDTOS.addAll(users.stream()
-                        .map(this::convertToUserDTO)
-                        .collect(Collectors.toList()));
+                        .map(this::convertToUserDTO).toList());
             }
         }
         return Optional.of(userDTOS);
