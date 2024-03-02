@@ -71,6 +71,7 @@ public class DealService {
         mail.setName(mailDTO.getName());
         mail.setDeal(dealRepository.findById(id).get());
         mail.setRpo(mailDTO.getRpo());
+        mail.setSum(mailDTO.getSum());
         mail.setCreatedAt(mailDTO.getCreatedAt());
         mail.setDestination(mailDTO.getDestination());
         mailRepository.save(mail);
