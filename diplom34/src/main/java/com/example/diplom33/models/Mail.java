@@ -32,7 +32,7 @@ public class Mail {
     private String destination;
 
     @Column(name = "sum")
-    private long sum;
+    private String sum;
 
     @ManyToOne
     @JoinColumn(name = "deal_id", referencedColumnName = "id")

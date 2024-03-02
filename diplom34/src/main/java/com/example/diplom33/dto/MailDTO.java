@@ -20,7 +20,9 @@ public class MailDTO {
 
     private String destination;
 
-    private long sum;
+    private String sum;
 
     private int id;
+
+
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GetCalendarDTO {
 
-        private int id;
+//        private int id;
 
         private LocalDate createdAt;
 
