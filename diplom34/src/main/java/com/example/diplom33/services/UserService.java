@@ -86,8 +86,8 @@ public class UserService {
     }
 
 
-    public void saveUser(Principal principal) {
-        User user = userRepository.findByPhone(principal.getName()).get();
+    public void saveUser(String phone) {
+        User user = userRepository.findByPhone(phone).get();
         user.setStatus(ConnectionStatus.ONLINE);
         userRepository.save(user);
     }

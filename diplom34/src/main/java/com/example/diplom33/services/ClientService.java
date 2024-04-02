@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +26,6 @@ public class ClientService {
 
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
-    private final ElasticsearchOperations elasticsearchOperations;
-
 
     public Optional<List<UserDTO>> getAllClient(String status, int offset, int pageSize, String fullName) {
         Pageable paging = PageRequest.of(offset, pageSize);

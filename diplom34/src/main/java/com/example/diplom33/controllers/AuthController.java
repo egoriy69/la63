@@ -51,6 +51,7 @@ public class AuthController {
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getPhone());
         UserWithRoleDTO userWithRoleDTO = userService.getUserWithRoleSign(userDetails);
+//        userService.saveUser(userDetails.getUsername());
 
 
         return ResponseEntity.ok(JwtResponse.builder()

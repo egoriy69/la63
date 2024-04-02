@@ -13,15 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "chat_room")
-public class ChatRoom {
-
+@Table(name = "group_chat_room")
+public class GroupChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long chatId;
-    private long senderId;
-    private long recipientId;
+    private Long id;
 
+    @ManyToMany
+    @JoinTable(
+            name = "GroupChatRoom_User",
+            joinColumns = @JoinColumn(name = "group_chat_room_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> participants;
 
 }
