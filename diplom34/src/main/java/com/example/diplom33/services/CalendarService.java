@@ -29,11 +29,14 @@ public class CalendarService {
 
     public List<GetCalendarDTO> getCalendar(int month, int year) {
         LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.plusMonths(1).minusDays(1);
 
 
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
-        startDate = startDate.minusDays(dayOfWeek.getValue()-1);
-        LocalDate endDate = startDate.plusDays(35-dayOfWeek.getValue());
+        startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
+        int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
+
+        endDate = startDate.plusDays(countDays >= 34 ? 41 : 34);
 
 
         List<Calendar> events = calendarRepository.findByCreatedAtBetween(startDate, endDate);
@@ -48,8 +51,8 @@ public class CalendarService {
             dto.setCreatedAt(currentDate);
             List<Calendar> tasksForDate = events.stream()
                     .filter(event -> event.getCreatedAt().isEqual(currentDate)).toList();
-
-            dto.setCurrent(month==currentDate.getMonth().getValue());
+//            dto.setCurrent(month == currentDate.getMonth().getValue());
+            dto.setCurrent(month == currentDate.getMonth().getValue());
             dto.setCount(tasksForDate.size());
             dto.setNameEvent(tasksForDate.stream().map(Calendar::getNameEvent).collect(Collectors.toList()));
             calendarData.add(dto);
@@ -58,15 +61,15 @@ public class CalendarService {
         return calendarData;
     }
 
-    public void createEvent(Calendar calendar){
+    public void createEvent(Calendar calendar) {
         calendarRepository.save(calendar);
     }
 
-    public Calendar getEvent(int id){
+    public Calendar getEvent(int id) {
         return calendarRepository.findById(id).get();
     }
 
-    public void updateEvent(int id, Calendar calendar){
+    public void updateEvent(int id, Calendar calendar) {
         Calendar calendar1 = calendarRepository.findById(id).get();
 
         BeanUtils.copyProperties(calendar, calendar1, "id");
@@ -75,11 +78,11 @@ public class CalendarService {
 
     }
 
-    public void deleteEvent(int id){
+    public void deleteEvent(int id) {
         calendarRepository.delete(calendarRepository.findById(id).get());
     }
 
-    public void deleteExpiredEvent(){
+    public void deleteExpiredEvent() {
         LocalDate currentDate = LocalDate.now();
         LocalDate threeMonthsAgo = currentDate.minusMonths(3).minusDays(currentDate.getDayOfMonth());
         calendarRepository.deleteByCreatedAtBefore(LocalDate.from(threeMonthsAgo));
