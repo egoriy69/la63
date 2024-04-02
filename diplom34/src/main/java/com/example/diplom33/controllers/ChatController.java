@@ -20,12 +20,12 @@ public class ChatController {
     private final UserService userService;
 
 
-    @MessageMapping("/user.addUser")
-//    @SendTo("/user/topic")
-    public FullNameUserDTO addUser(@Payload Principal principal){
-        userService.saveUser(principal);
-        return userService.convertToFullNameUserDTO(principal);
-    }
+//    @MessageMapping("/user.addUser")
+////    @SendTo("/user/topic")
+//    public FullNameUserDTO addUser(@Payload Principal principal){
+//        userService.saveUser(principal);
+//        return userService.convertToFullNameUserDTO(principal);
+//    }
 
     @MessageMapping("/user.disconnectUser")
 //    @SendTo("/user/topic")
