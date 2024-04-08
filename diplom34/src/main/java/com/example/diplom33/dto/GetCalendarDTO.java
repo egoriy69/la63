@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
@@ -18,13 +20,17 @@ public class GetCalendarDTO {
 
         private LocalDate createdAt;
 
-        private List<String> nameEvent;
+//        private List<String> nameEvent;
+
+        private HashMap<String, StatusEvent> nameEvent;
 
         private int count;
 
 //        private DayOfWeek dayOfTheWeek;
 
         private boolean current;
+
+
 
 //        private String comment;
 

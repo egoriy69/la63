@@ -1,6 +1,7 @@
 package com.example.diplom33.services;
 
 import com.example.diplom33.dto.GetCalendarDTO;
+import com.example.diplom33.dto.StatusEvent;
 import com.example.diplom33.models.Calendar;
 import com.example.diplom33.models.CalendarDate;
 import com.example.diplom33.repositories.CalendarRepository;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,17 +46,20 @@ public class CalendarService {
         List<GetCalendarDTO> calendarData = new ArrayList<>();
 
 
+
         for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
             final LocalDate currentDate = date;
-
             GetCalendarDTO dto = new GetCalendarDTO();
             dto.setCreatedAt(currentDate);
             List<Calendar> tasksForDate = events.stream()
                     .filter(event -> event.getCreatedAt().isEqual(currentDate)).toList();
-//            dto.setCurrent(month == currentDate.getMonth().getValue());
             dto.setCurrent(month == currentDate.getMonth().getValue());
             dto.setCount(tasksForDate.size());
-            dto.setNameEvent(tasksForDate.stream().map(Calendar::getNameEvent).collect(Collectors.toList()));
+            HashMap<String, StatusEvent> eventsMap = new HashMap<>();
+            for (Calendar event : tasksForDate) {
+                eventsMap.put(event.getNameEvent(), event.getStatusEvent());
+            }
+            dto.setNameEvent(eventsMap);
             calendarData.add(dto);
         }
 

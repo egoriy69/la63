@@ -1,5 +1,6 @@
 package com.example.diplom33.models;
 
+import com.example.diplom33.dto.StatusEvent;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,4 +33,6 @@ public class Calendar {
 
     @Column(name = "comment")
     private String comment;
+
+    private StatusEvent statusEvent;
 }
