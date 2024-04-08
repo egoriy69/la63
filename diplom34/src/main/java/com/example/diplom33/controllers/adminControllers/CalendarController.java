@@ -19,7 +19,10 @@ public class CalendarController {
     @GetMapping("/{year}/{month}")
     public List<GetCalendarDTO> getCalendar(@PathVariable int month, @PathVariable int year){
         return calendarService.getCalendar(month, year);
-
+    }
+    @GetMapping("/{year}/{month}/{day}")
+    public List<Calendar> getDay(@PathVariable int month, @PathVariable int year, @PathVariable int day){
+        return calendarService.getOneDay(month, year, day);
     }
 
     @PostMapping("/create")

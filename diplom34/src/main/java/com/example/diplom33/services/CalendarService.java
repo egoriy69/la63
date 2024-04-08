@@ -32,8 +32,6 @@ public class CalendarService {
     public List<GetCalendarDTO> getCalendar(int month, int year) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
-
-
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
         startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
@@ -44,8 +42,6 @@ public class CalendarService {
         List<Calendar> events = calendarRepository.findByCreatedAtBetween(startDate, endDate);
 
         List<GetCalendarDTO> calendarData = new ArrayList<>();
-
-
 
         for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
             final LocalDate currentDate = date;
@@ -62,8 +58,14 @@ public class CalendarService {
             dto.setNameEvent(eventsMap);
             calendarData.add(dto);
         }
-
         return calendarData;
+    }
+
+    public List<Calendar> getOneDay(int month, int year, int day){
+        LocalDate date = LocalDate.of(year, month, day);
+        List<Calendar> calendars = calendarRepository.findByCreatedAt(date);
+
+        return calendars;
     }
 
     public void createEvent(Calendar calendar) {

@@ -14,6 +14,7 @@ import java.util.List;
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
     List<Calendar> findByCreatedAtBetween(LocalDate year, LocalDate month);
+    List<Calendar> findByCreatedAt(LocalDate date);
 
     void deleteByCreatedAtBefore(LocalDate threeMonthsAgo);
 }

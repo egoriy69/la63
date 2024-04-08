@@ -16,22 +16,12 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 public class GetCalendarDTO {
 
-//        private int id;
-
         private LocalDate createdAt;
-
-//        private List<String> nameEvent;
 
         private HashMap<String, StatusEvent> nameEvent;
 
         private int count;
 
-//        private DayOfWeek dayOfTheWeek;
-
         private boolean current;
-
-
-
-//        private String comment;
 
 }

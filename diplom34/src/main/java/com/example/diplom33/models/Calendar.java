@@ -22,9 +22,6 @@ public class Calendar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @Column(name = "day_of_month")
-//    private int dayOfMonth;
-
     @Column(name = "created_at")
     private LocalDate createdAt;
 
