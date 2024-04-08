@@ -92,10 +92,6 @@ public class TaskService {
         return taskGetDTO;
     }
 
-//    public TaskGetDTO getEditTask(long id){
-//        Task task = taskRepository.findById(id).get();
-//        return convertToTaskGetDTO(task);
-//    }
 
     @Transactional
     public void deleteTask(long id) {
