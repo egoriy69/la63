@@ -31,5 +31,6 @@ public class Calendar {
     @Column(name = "comment")
     private String comment;
 
+    @Enumerated(EnumType.STRING)
     private StatusEvent statusEvent;
 }
