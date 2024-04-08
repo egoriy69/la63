@@ -36,7 +36,7 @@ public class CalendarService {
         startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
 
-        endDate = startDate.plusDays(countDays >= 35 ? 41 : 34);
+        endDate = startDate.plusDays(countDays > 35 ? 41 : 34);
 
 
         List<Calendar> events = calendarRepository.findByCreatedAtBetween(startDate, endDate);
