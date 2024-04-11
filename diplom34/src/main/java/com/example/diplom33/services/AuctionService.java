@@ -2,8 +2,10 @@ package com.example.diplom33.services;
 
 import com.example.diplom33.dto.AuctionDTO;
 import com.example.diplom33.dto.GetBriefInformationForAuctionDTO;
+import com.example.diplom33.dto.TaskDTO;
 import com.example.diplom33.models.Auction;
 import com.example.diplom33.models.Client;
+import com.example.diplom33.models.Task;
 import com.example.diplom33.models.User;
 import com.example.diplom33.repositories.AuctionRepository;
 import com.example.diplom33.repositories.ClientRepository;
@@ -12,12 +14,15 @@ import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.security.Principal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class AuctionService {
 
     private final AuctionRepository auctionRepository;
@@ -132,4 +138,17 @@ public class AuctionService {
     public List<Auction> getAllAuctionFullInformation() {
         return auctionRepository.findAll();
     }
+
+    public void deleteAuction(int id) {
+        auctionRepository.delete(auctionRepository.findById(id).get());
+    }
+
+    public void updateAuction(AuctionDTO auctionDTO, int id) {
+        Auction auction = auctionRepository.findById(id).get();
+        BeanUtils.copyProperties(auctionDTO, auction, "id");
+        auctionRepository.save(auction);
+
+    }
+
+
 }

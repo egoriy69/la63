@@ -54,4 +54,15 @@ public class AuctionController {
             return new ResponseEntity<>("Error exporting auctions: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteAuction(@PathVariable int id){
+        auctionService.deleteAuction(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateAuction(@PathVariable int id, @RequestBody AuctionDTO auctionDTO){
+        auctionService.updateAuction(auctionDTO, id);
+
+    }
 }
