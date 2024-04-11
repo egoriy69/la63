@@ -1,6 +1,8 @@
 package com.example.diplom33.models;
 
 import com.example.diplom33.enumeration.AuctionForm;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -44,7 +47,7 @@ public class Auction {
 
     @Column(name = "auctionForm")
     @Enumerated(EnumType.STRING)
-    private AuctionForm auctionForm;///
+    private AuctionForm auctionForm;
 
     @Column(name = "auctionType")
     private String auctionType;
@@ -60,6 +63,15 @@ public class Auction {
 
     @Column(name = "areaName")
     private String areaName;
+
+    @ManyToMany
+    @JoinTable(
+            name = "auction_client",
+            joinColumns = @JoinColumn(name = "auction_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id")
+    )
+    @JsonIgnore
+    private List<Client> clients;
 
 
 }

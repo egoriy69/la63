@@ -54,7 +54,7 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    @Column(name = "connection_status ")
+    @Column(name = "connection_status")
     private ConnectionStatus status;
 
 

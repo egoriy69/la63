@@ -31,6 +31,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 
 
+
     //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = ?1")
     User findByIdForUpdate(Long id);
