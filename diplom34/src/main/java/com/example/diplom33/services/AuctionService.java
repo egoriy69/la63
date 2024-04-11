@@ -43,10 +43,10 @@ public class AuctionService {
         Auction auction = new Auction();
         modelMapper.map(auctionDTO, auction);
 
-        List<Long> clientIds = auctionDTO.getClientsId();
-
-        List<Client> clients = clientRepository.findAllById(clientIds);
-        auction.setClients(clients);
+//        List<Long> clientIds = auctionDTO.getClientsId();
+//
+//        List<Client> clients = clientRepository.findAllById(clientIds);
+//        auction.setClients(clients);
         auctionRepository.save(auction);
 
     }

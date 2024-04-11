@@ -44,5 +44,5 @@ public class AuctionDTO {
 
     private String areaName;
 
-    private List<Long> clientsId;
+//    private List<Long> clientsId;
 }
