@@ -72,6 +72,4 @@ public class Auction {
     )
     @JsonIgnore
     private List<Client> clients;
-
-
 }

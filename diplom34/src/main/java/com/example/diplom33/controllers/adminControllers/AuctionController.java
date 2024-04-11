@@ -5,8 +5,11 @@ import com.example.diplom33.dto.GetBriefInformationForAuctionDTO;
 import com.example.diplom33.models.Auction;
 import com.example.diplom33.services.AuctionService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -38,4 +41,17 @@ public class AuctionController {
         return auctionService.getAllAuctionForClient(principal);
     }
 
+    @PutMapping ("/exportAuctionsToExcel")
+    public ResponseEntity<String> exportAuctionsToExcel(@RequestBody List<Integer> auctionId) {
+        try {
+            String filePath = "auctions.xlsx"; // Определяем путь к файлу Excel
+
+            auctionService.exportAuctionsToExcel(auctionId, filePath);
+
+            return new ResponseEntity<>("Auctions exported successfully to " + filePath, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error exporting auctions: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

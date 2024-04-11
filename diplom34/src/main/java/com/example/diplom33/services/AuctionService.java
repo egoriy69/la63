@@ -9,14 +9,18 @@ import com.example.diplom33.repositories.AuctionRepository;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +31,6 @@ public class AuctionService {
     private final AuctionRepository auctionRepository;
     private final ClientRepository clientRepository;
     private final UserRepository userRepository;
-
     private ModelMapper modelMapper;
 
     public void createAuction(AuctionDTO auctionDTO) {
@@ -60,16 +63,73 @@ public class AuctionService {
     }
 
     public List<GetBriefInformationForAuctionDTO> getAllAuctionForClient(Principal principal) {
-//        List<GetBriefInformationForAuctionDTO> auctionDTO = new ArrayList<>();
         List<Auction> auctions = auctionRepository.findAllByClientsIn(Collections.singletonList(userRepository.findByPhone(principal.getName()).get().getClient()));
-//            modelMapper.map(auctions, auctionDTO);
         return auctions.stream()
-                .map(auction -> new GetBriefInformationForAuctionDTO(auction))
+                .map(GetBriefInformationForAuctionDTO::new)
                 .collect(Collectors.toList());
     }
-}
 
-//    Client client = clientRepository.findByUserIdForUpdate(id);
-//            BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
-//                    client.setStatus(ClientStatus.valueOf(userUpdateInfoDTO.getStatus()));
-//                    clientRepository.save(client);
+    public void exportAuctionsToExcel(List<Integer> auctionId, String filePath) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+
+        List<Auction> auctions = auctionRepository.findAllById(auctionId);
+        Sheet sheet = workbook.createSheet("Auctions");
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"ID", "Number", "Initial Price", "Deposit", "Name", "Market Value", "Expiry Date", "Auction Date", "Auction Form", "Auction Type", "Limitations", "Limitation Date", "Link", "Area Name"};
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // Fill data
+        int rowNum = 1;
+        for (Auction auction : auctions) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(auction.getId());
+            row.createCell(1).setCellValue(auction.getNumber());
+            row.createCell(2).setCellValue(auction.getInitialPrice());
+            row.createCell(3).setCellValue(auction.getDeposit());
+            row.createCell(4).setCellValue(auction.getName());
+            row.createCell(5).setCellValue(auction.getMarketValue());
+            row.createCell(6).setCellValue(auction.getExpiryDate().toString());
+            row.createCell(7).setCellValue(auction.getAuctionDate().toString()); // Note: you might need to format date properly
+            row.createCell(8).setCellValue(auction.getAuctionForm().toString());
+            row.createCell(9).setCellValue(auction.getAuctionType());
+            row.createCell(10).setCellValue(auction.getLimitations());
+            row.createCell(11).setCellValue(auction.getLimitationDate().toString()); // Note: you might need to format date properly
+            row.createCell(12).setCellValue(auction.getLink());
+            row.createCell(13).setCellValue(auction.getAreaName());
+        }
+
+
+        for (int i = 0; i < headers.length; i++) {
+            int maxLength = 0;
+            for (Row row : sheet) {
+                Cell cell = row.getCell(i);
+                if (cell != null && cell.getCellType() == CellType.STRING) {
+                    String text = cell.getStringCellValue();
+                    maxLength = Math.max(maxLength, text.length());
+                }
+            }
+            int columnWidth = Math.min(maxLength + 1, 20) * 256;
+            if (columnWidth != 20 * 256) {
+                sheet.setColumnWidth(i, columnWidth);
+            } else {
+                sheet.setColumnWidth(i, 20 * 256);
+                CellStyle cellStyle = workbook.createCellStyle();
+                cellStyle.setWrapText(true);
+                sheet.setDefaultColumnStyle(i, cellStyle);
+            }
+        }
+
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+        }
+
+        workbook.close();
+    }
+
+    public List<Auction> getAllAuctionFullInformation() {
+        return auctionRepository.findAll();
+    }
+}
