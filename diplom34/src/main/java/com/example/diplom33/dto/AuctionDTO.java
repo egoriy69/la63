@@ -18,7 +18,7 @@ import java.util.List;
 public class AuctionDTO {
     private int id;
 
-    private int number;
+    private String number;
 
     private long initialPrice;
 

@@ -25,7 +25,7 @@ public class Auction {
     private int id;
 
     @Column(name = "number")
-    private int number;
+    private String number;
 
     @Column(name = "initialPrice")
     private long initialPrice;
