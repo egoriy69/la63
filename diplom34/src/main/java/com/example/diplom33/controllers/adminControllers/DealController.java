@@ -12,6 +12,7 @@ import com.example.diplom33.services.DealService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 @CrossOrigin(origins = {"http://localhost:5173"})
 @RestController
@@ -38,6 +39,11 @@ public class DealController {
     @DeleteMapping("/{id}")//id deal
     public void deleteDeal(@PathVariable int id){
         dealService.deleteDeal(id);
+    }
+
+    @PostMapping("DealForClient")
+    public List<ProgressDealDTO> GetProgressDealForClient(@RequestBody Principal principal){
+       return dealService.GetProgressDealForClient(principal);
     }
 
     @PostMapping("/progress/new/{id}")

@@ -1,6 +1,8 @@
 package com.example.diplom33.controllers.adminControllers;
 
 import com.example.diplom33.dto.AuctionDTO;
+import com.example.diplom33.dto.AuctionForAddClientDTO;
+import com.example.diplom33.dto.FullNameUserDTO;
 import com.example.diplom33.dto.GetBriefInformationForAuctionDTO;
 import com.example.diplom33.models.Auction;
 import com.example.diplom33.services.AuctionService;
@@ -44,7 +46,7 @@ public class AuctionController {
     @PutMapping ("/exportAuctionsToExcel")
     public ResponseEntity<String> exportAuctionsToExcel(@RequestBody List<Integer> auctionId) {
         try {
-            String filePath = "auctions.xlsx"; // Определяем путь к файлу Excel
+            String filePath = "auctions.xlsx";
 
             auctionService.exportAuctionsToExcel(auctionId, filePath);
 
@@ -55,6 +57,11 @@ public class AuctionController {
         }
     }
 
+    @GetMapping("/fullName")
+    public List<FullNameUserDTO> getFullNameClient(){
+        return auctionService.getFullNameClient();
+    }
+
     @DeleteMapping("/{id}")
     public void deleteAuction(@PathVariable int id){
         auctionService.deleteAuction(id);
@@ -63,6 +70,10 @@ public class AuctionController {
     @PatchMapping("/{id}")
     public void updateAuction(@PathVariable int id, @RequestBody AuctionDTO auctionDTO){
         auctionService.updateAuction(auctionDTO, id);
+    }
 
+    @PostMapping("/addClient")
+    public void addClient(@RequestBody AuctionForAddClientDTO auctionForAddClientDTO){
+        auctionService.addClient(auctionForAddClientDTO);
     }
 }

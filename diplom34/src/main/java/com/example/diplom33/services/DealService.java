@@ -10,14 +10,13 @@ import com.example.diplom33.models.Payment;
 import com.example.diplom33.models.ProgressDeal;
 import com.example.diplom33.repositories.*;
 import lombok.AllArgsConstructor;
-import org.hibernate.validator.constraints.LuhnCheck;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -44,6 +43,11 @@ public class DealService {
     public List<ProgressDealDTO> getProgressDeal(int id){
         List<ProgressDeal> progressDeals = progressDealRepository.findAllByDealId(id);
         return convertToProgressDealDTO(progressDeals);
+    }
+
+    public List<ProgressDealDTO> GetProgressDealForClient(Principal principal) {
+//        List<ProgressDeal> progressDeals =
+        return null;
     }
 
     public void createDeal(DealDTO dealDTO, long id){
@@ -140,6 +144,8 @@ public class DealService {
     public void deletePayment(int id) {
         paymentRepository.delete(paymentRepository.findById(id).get());
     }
+
+
 
 
 //    private DealDTO convertToDTO(Deal deal) {

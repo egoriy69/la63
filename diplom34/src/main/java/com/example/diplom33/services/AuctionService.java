@@ -1,12 +1,7 @@
 package com.example.diplom33.services;
 
-import com.example.diplom33.dto.AuctionDTO;
-import com.example.diplom33.dto.GetBriefInformationForAuctionDTO;
-import com.example.diplom33.dto.TaskDTO;
-import com.example.diplom33.models.Auction;
-import com.example.diplom33.models.Client;
-import com.example.diplom33.models.Task;
-import com.example.diplom33.models.User;
+import com.example.diplom33.dto.*;
+import com.example.diplom33.models.*;
 import com.example.diplom33.repositories.AuctionRepository;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.UserRepository;
@@ -42,14 +37,13 @@ public class AuctionService {
     public void createAuction(AuctionDTO auctionDTO) {
         Auction auction = new Auction();
         modelMapper.map(auctionDTO, auction);
-
-//        List<Long> clientIds = auctionDTO.getClientsId();
-//
-//        List<Client> clients = clientRepository.findAllById(clientIds);
-//        auction.setClients(clients);
         auctionRepository.save(auction);
-
     }
+
+    public List<FullNameUserDTO> getFullNameClient(){
+        return userRepository.findAllFullNameUserDTO();
+    }
+
 
     public Auction getAuction(int id) {
         return auctionRepository.findById(id).get();
@@ -150,5 +144,12 @@ public class AuctionService {
 
     }
 
+    public void addClient(AuctionForAddClientDTO ids) {
+        Client client = clientRepository.findByUserId(ids.getUserId());
+        List<Auction> auctions = auctionRepository.findAllById(ids.getAuctionId());
+        for (Auction auction: auctions) {
+            auction.setClients(Collections.singletonList(client));
+        }
 
+    }
 }
