@@ -1,9 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
-import com.example.diplom33.dto.DealDTO;
-import com.example.diplom33.dto.MailDTO;
-import com.example.diplom33.dto.PaymentDTO;
-import com.example.diplom33.dto.ProgressDealDTO;
+import com.example.diplom33.dto.*;
 import com.example.diplom33.models.Deal;
 import com.example.diplom33.models.Mail;
 import com.example.diplom33.models.Payment;
@@ -41,8 +38,8 @@ public class DealController {
         dealService.deleteDeal(id);
     }
 
-    @PostMapping("DealForClient")
-    public List<ProgressDealDTO> GetProgressDealForClient(@RequestBody Principal principal){
+    @GetMapping("/dealForClient")
+    public List<ProgressDealForClientDTO> GetProgressDealForClient(Principal principal){
        return dealService.GetProgressDealForClient(principal);
     }
 

@@ -1,6 +1,7 @@
 package com.example.diplom33.repositories;
 
 import com.example.diplom33.dto.ProgressDealDTO;
+import com.example.diplom33.models.Deal;
 import com.example.diplom33.models.ProgressDeal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,8 @@ public interface ProgressDealRepository extends JpaRepository<ProgressDeal, Inte
     List<ProgressDeal> findAllByDealId(int deal_id);
 
     ProgressDeal findByDealId(int id);
+
+    ProgressDeal findByDeal(Deal deal);
+//    List<ProgressDeal> findAllByDealIdIn(List<Integer> ids);
 }
+

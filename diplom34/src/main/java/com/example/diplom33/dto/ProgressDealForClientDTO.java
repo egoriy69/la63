@@ -9,13 +9,14 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProgressDealForClientDTO {
+public class ProgressDealForClientDTO{
+
+    private String nameDeal;
 
     private int id;
 
     private Instant createdAt;
 
     private String comment;
-
 
 }

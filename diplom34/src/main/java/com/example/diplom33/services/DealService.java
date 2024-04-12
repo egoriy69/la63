@@ -1,15 +1,14 @@
 package com.example.diplom33.services;
 
-import com.example.diplom33.dto.DealDTO;
-import com.example.diplom33.dto.MailDTO;
-import com.example.diplom33.dto.PaymentDTO;
-import com.example.diplom33.dto.ProgressDealDTO;
+import com.example.diplom33.dto.*;
 import com.example.diplom33.models.Deal;
 import com.example.diplom33.models.Mail;
 import com.example.diplom33.models.Payment;
 import com.example.diplom33.models.ProgressDeal;
 import com.example.diplom33.repositories.*;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +35,7 @@ public class DealService {
     private final MailRepository mailRepository;
 
     private final PaymentRepository paymentRepository;
+    private final ModelMapper modelMapper;
 
 
     public List<DealDTO> getAllDeals(long id) {
@@ -45,9 +48,23 @@ public class DealService {
         return convertToProgressDealDTO(progressDeals);
     }
 
-    public List<ProgressDealDTO> GetProgressDealForClient(Principal principal) {
-//        List<ProgressDeal> progressDeals =
-        return null;
+    public List<ProgressDealForClientDTO> GetProgressDealForClient(Principal principal) {
+
+        List<Object[]> results = dealRepository.findDealsAndProgressByUserId(userRepository.findByPhone(principal.getName()).orElseThrow().getId());
+        List<ProgressDealForClientDTO> progressDealDTOs = new ArrayList<>();
+        for (Object[] result : results) {
+            Deal deal = (Deal) result[0];
+            ProgressDeal progressDeal = (ProgressDeal) result[1];
+            ProgressDealForClientDTO dto = new ProgressDealForClientDTO();
+            dto.setId(deal.getId());
+            dto.setNameDeal(deal.getName());
+            if (progressDeal != null) {
+                dto.setCreatedAt(progressDeal.getCreatedAt());
+                dto.setComment(progressDeal.getComment());
+            }
+            progressDealDTOs.add(dto);
+        }
+        return progressDealDTOs;
     }
 
     public void createDeal(DealDTO dealDTO, long id){
