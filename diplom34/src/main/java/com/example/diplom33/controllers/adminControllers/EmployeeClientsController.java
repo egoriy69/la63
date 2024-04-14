@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,18 @@ public class EmployeeClientsController {
     @GetMapping("/{id}")
     public UserUpdateInfoDTO showClient(@PathVariable int id) {
         return userService.getUser(id);
+    }
+
+    @GetMapping("/showForClient")
+    public UserUpdateInfoDTO showInfoForClient(Principal principal){
+
+        return userService.showInfoForClient(principal);
+    }
+
+    @PostMapping("/updateForClient")
+    public void updateInfoForClient(Principal principal, @RequestBody @Valid UserUpdateInfoDTO userUpdateInfoDTO){
+
+         userService.updateInfoForClient(principal, userUpdateInfoDTO);
     }
 
     @PatchMapping("/{id}")

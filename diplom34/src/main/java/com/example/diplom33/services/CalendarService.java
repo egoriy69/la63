@@ -2,9 +2,9 @@ package com.example.diplom33.services;
 
 import com.example.diplom33.dto.GetCalendarDTO;
 import com.example.diplom33.dto.StatusEvent;
-import com.example.diplom33.models.Calendar;
-import com.example.diplom33.models.CalendarDate;
+import com.example.diplom33.models.*;
 import com.example.diplom33.repositories.CalendarRepository;
+import com.example.diplom33.repositories.EventRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -27,7 +28,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CalendarService {
 
-    private final CalendarRepository calendarRepository;
+    private final EventRepository eventRepository;
+
+    public void createMeeting(Meeting meeting) {
+        eventRepository.save(meeting);
+    }
+
+    public void createCalendarEvent(CalendarEvent calendarEvent) {
+         eventRepository.save(calendarEvent);
+    }
 
     public List<GetCalendarDTO> getCalendar(int month, int year) {
         LocalDate startDate = LocalDate.of(year, month, 1);
@@ -35,11 +44,9 @@ public class CalendarService {
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
         startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
-
         endDate = startDate.plusDays(countDays > 35 ? 41 : 34);
 
-
-        List<Calendar> events = calendarRepository.findByCreatedAtBetween(startDate, endDate);
+        List<Event> events = eventRepository.findByTimeBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX));
 
         List<GetCalendarDTO> calendarData = new ArrayList<>();
 
@@ -47,13 +54,17 @@ public class CalendarService {
             final LocalDate currentDate = date;
             GetCalendarDTO dto = new GetCalendarDTO();
             dto.setCreatedAt(currentDate);
-            List<Calendar> tasksForDate = events.stream()
-                    .filter(event -> event.getCreatedAt().isEqual(currentDate)).toList();
+            List<Event> eventsForDate = events.stream()
+                    .filter(event -> event.getTime().toLocalDate().isEqual(currentDate)).toList();
             dto.setCurrent(month == currentDate.getMonth().getValue());
-            dto.setCount(tasksForDate.size());
-            HashMap<String, StatusEvent> eventsMap = new HashMap<>();
-            for (Calendar event : tasksForDate) {
-                eventsMap.put(event.getNameEvent(), event.getStatusEvent());
+            dto.setCount(eventsForDate.size());
+            HashMap<String, Enum<?>> eventsMap = new HashMap<>();
+            for (Event event : eventsForDate) {
+                if (event instanceof Meeting) {
+                    eventsMap.put(((Meeting) event).getName(), ((Meeting) event).getMeetingStatus());
+                } else if (event instanceof CalendarEvent) {
+                    eventsMap.put(((CalendarEvent) event).getName(), ((CalendarEvent) event).getStatusEvent());
+                }
             }
             dto.setNameEvent(eventsMap);
             calendarData.add(dto);
@@ -61,38 +72,52 @@ public class CalendarService {
         return calendarData;
     }
 
-    public List<Calendar> getOneDay(int month, int year, int day){
+        public List<Event> getOneDay(int month, int year, int day){
         LocalDate date = LocalDate.of(year, month, day);
-        List<Calendar> calendars = calendarRepository.findByCreatedAt(date);
-
-        return calendars;
+            return eventRepository.findByTimeBetween(date.atStartOfDay(), date.atTime(LocalTime.MAX));
     }
 
-    public void createEvent(Calendar calendar) {
-        calendarRepository.save(calendar);
+    public Event getEvent(int id) {
+        return eventRepository.findById(id).get();
     }
 
-    public Calendar getEvent(int id) {
-        return calendarRepository.findById(id).get();
+    public void updateEvent(int id, Event event) {
+        Event existingEvent = eventRepository.findById(id).get();
+
+        if (event instanceof CalendarEvent) {
+            CalendarEvent existingCalendarEvent = (CalendarEvent) existingEvent;
+            BeanUtils.copyProperties(event, existingCalendarEvent, "id");
+        } else if (event instanceof Meeting) {
+            Meeting existingMeeting = (Meeting) existingEvent;
+            BeanUtils.copyProperties(event, existingMeeting, "id");
+        }
+
+        eventRepository.save(existingEvent);
     }
 
-    public void updateEvent(int id, Calendar calendar) {
-        Calendar calendar1 = calendarRepository.findById(id).get();
+    public void updateEvent(int id, CalendarEvent calendarEvent) {
+        Event existingEvent = eventRepository.findById(id).get();
 
-        BeanUtils.copyProperties(calendar, calendar1, "id");
+            CalendarEvent existingCalendarEvent = (CalendarEvent) existingEvent;
+            BeanUtils.copyProperties(calendarEvent, existingCalendarEvent, "id");
+            eventRepository.save(existingEvent);
+        }
 
-        calendarRepository.save(calendar1);
-
+    public void updateMeeting(int id, Meeting meeting) {
+        Event existingEvent = eventRepository.findById(id).get();
+        Meeting existingMeeting = (Meeting) existingEvent;
+        BeanUtils.copyProperties(meeting, existingMeeting, "id");
+        eventRepository.save(existingEvent);
     }
 
     public void deleteEvent(int id) {
-        calendarRepository.delete(calendarRepository.findById(id).get());
+        eventRepository.delete(eventRepository.findById(id).get());
     }
 
     public void deleteExpiredEvent() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate threeMonthsAgo = currentDate.minusMonths(3).minusDays(currentDate.getDayOfMonth());
-        calendarRepository.deleteByCreatedAtBefore(LocalDate.from(threeMonthsAgo));
+        LocalDateTime currentDate = LocalDateTime.now();
+        LocalDateTime threeMonthsAgo = currentDate.minusMonths(3).minusDays(currentDate.getDayOfMonth());
+        eventRepository.deleteByTimeBefore(LocalDateTime.from(threeMonthsAgo));
     }
 
 

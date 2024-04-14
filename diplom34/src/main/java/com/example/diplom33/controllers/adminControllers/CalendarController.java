@@ -1,9 +1,9 @@
 package com.example.diplom33.controllers.adminControllers;
 import com.example.diplom33.dto.GetCalendarDTO;
-import com.example.diplom33.models.Calendar;
-import com.example.diplom33.models.CalendarDate;
+import com.example.diplom33.models.*;
 import com.example.diplom33.services.CalendarService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,34 +16,49 @@ public class CalendarController {
 
     private final CalendarService calendarService;
 
+
+    @PostMapping("/meeting")
+    public void createMeeting(@RequestBody Meeting meeting) {
+        calendarService.createMeeting(meeting);
+    }
+
+    @PostMapping("/event")
+    public void createCalendarEvent(@RequestBody CalendarEvent calendarEvent) {
+        calendarService.createCalendarEvent(calendarEvent);
+
+    }
     @GetMapping("/{year}/{month}")
     public List<GetCalendarDTO> getCalendar(@PathVariable int month, @PathVariable int year){
         return calendarService.getCalendar(month, year);
     }
+
     @GetMapping("/{year}/{month}/{day}")
-    public List<Calendar> getDay(@PathVariable int month, @PathVariable int year, @PathVariable int day){
+    public List<Event> getDay(@PathVariable int month, @PathVariable int year, @PathVariable int day){
         return calendarService.getOneDay(month, year, day);
     }
 
-    @PostMapping("/create")
-    public void createEvent(@RequestBody Calendar calendar){
-        calendarService.createEvent(calendar);
-    }
-
     @GetMapping("/{id}")
-    public Calendar getEvent(@PathVariable int id){
+    public Event getEvent(@PathVariable int id){
         return calendarService.getEvent(id);
     }
 
-    @PatchMapping("/{id}")
-    public void updateEvent(@PathVariable int id, @RequestBody Calendar calendar){
-        calendarService.updateEvent(id, calendar);
+
+    @PatchMapping("/event/{id}")
+    public void updateCalendarEvent(@PathVariable int id, @RequestBody CalendarEvent calendarEvent){
+        calendarService.updateEvent(id, calendarEvent);
     }
+    @PatchMapping("/meeting/{id}")
+    public void updateMeeting(@PathVariable int id, @RequestBody Meeting meeting){
+        calendarService.updateMeeting(id, meeting);
+    }
+
+
 
     @DeleteMapping("/{id}")
     public void deleteEvent(@PathVariable int id){
         calendarService.deleteEvent(id);
     }
+
 
     @DeleteMapping("/deleteExpiredEvent")
     public void deleteExpiredEvent(){

@@ -150,4 +150,16 @@ public class UserService {
     }
 
 
+    public UserUpdateInfoDTO showInfoForClient(Principal principal) {
+        User user = userRepository.findByPhone(principal.getName()).get();
+        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
+        BeanUtils.copyProperties(user, userUpdateInfoDTO, "id");
+        return userUpdateInfoDTO;
+    }
+
+    public void updateInfoForClient(Principal principal, UserUpdateInfoDTO userUpdateInfoDTO) {
+        User user = userRepository.findByPhone(principal.getName()).get();
+        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
+        userRepository.save(user);
+    }
 }

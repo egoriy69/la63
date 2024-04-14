@@ -18,7 +18,7 @@ public class GetCalendarDTO {
 
         private LocalDate createdAt;
 
-        private HashMap<String, StatusEvent> nameEvent;
+        private HashMap<String, Enum<?>> nameEvent;
 
         private int count;
 
