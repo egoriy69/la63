@@ -52,8 +52,6 @@ public class CalendarController {
         calendarService.updateMeeting(id, meeting);
     }
 
-
-
     @DeleteMapping("/{id}")
     public void deleteEvent(@PathVariable int id){
         calendarService.deleteEvent(id);

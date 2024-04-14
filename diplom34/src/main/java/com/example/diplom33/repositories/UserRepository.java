@@ -30,7 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<List<User>> findAllByStatus(ConnectionStatus status);
     List<User> findByClientStatus(ClientStatus clientStatus, Pageable pageable);
 
-    @Query("SELECT new com.example.diplom33.dto.FullNameUserDTO(c.id, u.firstName, u.lastName, u.patronymic) FROM Client c JOIN c.user u")
+    @Query("SELECT new com.example.diplom33.dto.FullNameUserDTO(c.user.id, u.firstName, u.lastName, u.patronymic) FROM Client c JOIN c.user u")
     List<FullNameUserDTO> findAllFullNameUserDTO();
 
 
