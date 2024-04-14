@@ -12,6 +12,7 @@ import com.example.diplom33.repositories.EmployeeRepository;
 import com.example.diplom33.repositories.RoleRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +30,14 @@ public class EmployeeService {
 
     public void createUser(UserCreateInfoDTO userCreateInfoDTO) {
         User user = new User();
-        user.setFirstName(userCreateInfoDTO.getFirstName());
-        user.setLastName(userCreateInfoDTO.getLastName());
-        user.setPatronymic(userCreateInfoDTO.getPatronymic());
-        user.setBirth(userCreateInfoDTO.getBirth());
-        user.setPhone(userCreateInfoDTO.getPhone());
-        user.setPassport(userCreateInfoDTO.getPassport());
-        user.setEmail(userCreateInfoDTO.getEmail());
+        BeanUtils.copyProperties(userCreateInfoDTO, user, "id");
+//        user.setFirstName(userCreateInfoDTO.getFirstName());
+//        user.setLastName(userCreateInfoDTO.getLastName());
+//        user.setPatronymic(userCreateInfoDTO.getPatronymic());
+//        user.setBirth(userCreateInfoDTO.getBirth());
+//        user.setPhone(userCreateInfoDTO.getPhone());
+//        user.setPassport(userCreateInfoDTO.getPassport());
+//        user.setEmail(userCreateInfoDTO.getEmail());
         createUserByRole(user, userCreateInfoDTO);
     }
 

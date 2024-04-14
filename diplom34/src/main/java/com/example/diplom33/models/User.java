@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -37,19 +38,41 @@ public class User {
     private String password;
 
     @Column(name = "birth")
-    private Date birth;
+    private LocalDate birth;
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "snils")
+    private String snils;
+
+    @Column(name = "PlaceOfBirth")
+    private String PlaceOfBirth;
+
     @Column(name = "passport")
     private String passport;
 
+    @Column(name = "passportIssued")
+    private String passportIssued;
+
+    @Column(name = "dateIssuePassport")
+    private LocalDate dateIssuePassport;
+
+    @Column(name = "kp")
+    private String kp;
+
+    @Column(name = "registrationAddress")
+    private String registrationAddress;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date timestamp;
+    private LocalDate timestamp;
 
     @OneToOne(mappedBy = "user")
     private Client client;
+
+//    @OneToOne(mappedBy = "user")
+//    private Passport passportInfo;
 
     @OneToOne(mappedBy = "user")
     private Employee employee;

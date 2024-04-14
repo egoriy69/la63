@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class UserCreateInfoDTO {
 
     private String patronymic;
 
-    private Date birth;
+    private LocalDate birth;
 
     @NotBlank(message = "поле не может быть пустым")
     @UniquePhone
@@ -39,4 +40,16 @@ public class UserCreateInfoDTO {
     private String password;
 
     private String login;
+
+    private String passportIssued;
+
+    private LocalDate dateIssuePassport;
+
+    private String kp;
+
+    private String registrationAddress;
+
+    private String snils;
+
+    private String PlaceOfBirth;
 }
