@@ -11,12 +11,18 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.security.Principal;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -70,7 +76,7 @@ public class AuctionService {
                 .collect(Collectors.toList());
     }
 
-    public void exportAuctionsToExcel(List<Integer> auctionId, String filePath) throws IOException {
+    public ResponseEntity<byte[]> exportAuctionsToExcel(List<Integer> auctionId, String filePath) throws IOException {
         Workbook workbook = new XSSFWorkbook();
 
         List<Auction> auctions = auctionRepository.findAllById(auctionId);
@@ -128,6 +134,19 @@ public class AuctionService {
         }
 
         workbook.close();
+
+        File file = new File(filePath);
+        byte[] fileContent = Files.readAllBytes(file.toPath());
+
+        // Удаление временного файла после чтения его в байтовый массив
+        file.delete();
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        header.setContentDispositionFormData("attachment", "auctions.xlsx");
+        header.setContentLength(fileContent.length);
+
+        return new ResponseEntity<>(fileContent, header, HttpStatus.OK);
     }
 
     public List<Auction> getAllAuctionFullInformation() {
