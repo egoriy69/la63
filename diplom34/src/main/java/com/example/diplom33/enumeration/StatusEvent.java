@@ -1,4 +1,4 @@
-package com.example.diplom33.dto;
+package com.example.diplom33.enumeration;
 
 public enum StatusEvent {
     COURT,

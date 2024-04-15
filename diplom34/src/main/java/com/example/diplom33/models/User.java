@@ -78,6 +78,7 @@ public class User {
     private Employee employee;
 
     @Column(name = "connection_status")
+    @Enumerated(EnumType.STRING)
     private ConnectionStatus status;
 
 

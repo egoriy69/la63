@@ -98,9 +98,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> findConnectUser() {
-        return userRepository.findAllByStatus(ConnectionStatus.ONLINE).get();
-    }
+//    public List<User> findConnectUser() {
+//        return userRepository.findAllByStatus(ConnectionStatus.ONLINE).get();
+//    }
 
 
     public UserWithRoleDTO convertToUserWithRoleSignDTO(UserDetails userDetails) {

@@ -27,7 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByPhone(String phone);
 
 
-    Optional<List<User>> findAllByStatus(ConnectionStatus status);
     List<User> findByClientStatus(ClientStatus clientStatus, Pageable pageable);
 
     @Query("SELECT new com.example.diplom33.dto.FullNameUserDTO(c.user.id, u.firstName, u.lastName, u.patronymic) FROM Client c JOIN c.user u")
@@ -48,4 +47,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 //    List<UserDTO> findByFirstNameContainingAndLastNameContainingAndPatronymicContaining(String name, String name1, String name2, Pageable paging);
 
     List<User> findByFirstNameContainingOrLastNameContainingOrPatronymicContaining(String name, String name1, String name2, Pageable paging);
+
+    List<User> findAllByStatus(ConnectionStatus connectionStatus);
 }

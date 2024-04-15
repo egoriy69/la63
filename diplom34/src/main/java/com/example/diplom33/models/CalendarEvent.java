@@ -1,6 +1,6 @@
 package com.example.diplom33.models;
 
-import com.example.diplom33.dto.StatusEvent;
+import com.example.diplom33.enumeration.StatusEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
