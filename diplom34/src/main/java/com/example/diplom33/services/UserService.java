@@ -34,18 +34,19 @@ public class UserService {
 
 
     public UserUpdateInfoDTO getUser(long id) {
-        Optional<User> user = userRepository.findById(id);
+        User user = userRepository.findById(id).get();
 
-        UserUpdateInfoDTO userUpdateInfoDTO = convertToUserUpdateInfoDTO(user.get());
+        UserUpdateInfoDTO userUpdateInfoDTO = new UserUpdateInfoDTO();
 
+        BeanUtils.copyProperties(user, userUpdateInfoDTO,"id");
+        if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
 
-        if (Objects.equals(user.get().getRoles().get(0).getName(), "ROLE_CLIENT")) {
-            userUpdateInfoDTO.setComment(user.get().getClient().getComment());
-            userUpdateInfoDTO.setStatus(user.get().getClient().getStatus().name());
-            userUpdateInfoDTO.setPassword(user.get().getClient().getPassword());
-            userUpdateInfoDTO.setLogin(user.get().getClient().getLogin());
+//            userUpdateInfoDTO.setComment(user.get().getClient().getComment());
+            userUpdateInfoDTO.setStatus(user.getClient().getStatus().name());
+//            userUpdateInfoDTO.setPassword(user.get().getClient().getPassword());
+//            userUpdateInfoDTO.setLogin(user.get().getClient().getLogin());
         } else {
-            userUpdateInfoDTO.setRole(user.get().getRoles().get(0).getName());
+            userUpdateInfoDTO.setRole(user.getRoles().get(0).getName());
         }
         return userUpdateInfoDTO;
     }

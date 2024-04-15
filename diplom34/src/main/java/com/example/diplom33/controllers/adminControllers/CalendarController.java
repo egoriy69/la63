@@ -50,7 +50,7 @@ public class CalendarController {
     public void updateCalendarEvent(@PathVariable int id, @RequestBody CalendarEvent calendarEvent){
         calendarService.updateEvent(id, calendarEvent);
     }
-    
+
     @PatchMapping("/meeting/{id}")
     public void updateMeeting(@PathVariable int id, @RequestBody Meeting meeting){
         calendarService.updateMeeting(id, meeting);

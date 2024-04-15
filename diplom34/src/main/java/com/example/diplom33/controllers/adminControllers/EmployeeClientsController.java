@@ -39,15 +39,15 @@ public class EmployeeClientsController {
     }
 
     @GetMapping("/showForClient")
-    public UserUpdateInfoDTO showInfoForClient(Principal principal){
+    public UserUpdateInfoDTO showInfoForClient(Principal principal) {
 
         return userService.showInfoForClient(principal);
     }
 
     @PostMapping("/updateForClient")
-    public void updateInfoForClient(Principal principal, @RequestBody @Valid UserUpdateInfoDTO userUpdateInfoDTO){
+    public void updateInfoForClient(Principal principal, @RequestBody @Valid UserUpdateInfoDTO userUpdateInfoDTO) {
 
-         userService.updateInfoForClient(principal, userUpdateInfoDTO);
+        userService.updateInfoForClient(principal, userUpdateInfoDTO);
     }
 
     @PatchMapping("/{id}")
