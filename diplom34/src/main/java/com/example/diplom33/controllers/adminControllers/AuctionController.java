@@ -1,9 +1,6 @@
 package com.example.diplom33.controllers.adminControllers;
 
-import com.example.diplom33.dto.AuctionDTO;
-import com.example.diplom33.dto.AuctionForAddClientDTO;
-import com.example.diplom33.dto.FullNameUserDTO;
-import com.example.diplom33.dto.GetBriefInformationForAuctionDTO;
+import com.example.diplom33.dto.*;
 import com.example.diplom33.models.Auction;
 import com.example.diplom33.services.AuctionService;
 import lombok.AllArgsConstructor;
@@ -41,6 +38,11 @@ public class AuctionController {
     @GetMapping("/forClient")
     public List<GetBriefInformationForAuctionDTO> getAllAuctionForClient(Principal principal) {
         return auctionService.getAllAuctionForClient(principal);
+    }
+
+    @GetMapping("/getCheckMarks/{id}")
+    public GetCheckMarksAuctions getCheckMarks(@PathVariable long id){
+        return auctionService.getCheckMarks(id);
     }
 
     @PutMapping ("/exportAuctionsToExcel")

@@ -6,6 +6,7 @@ import com.example.diplom33.repositories.AuctionRepository;
 import com.example.diplom33.repositories.ClientRepository;
 import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.Get;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.modelmapper.ModelMapper;
@@ -151,5 +152,12 @@ public class AuctionService {
             auction.setClients(Collections.singletonList(client));
         }
 
+    }
+
+    public GetCheckMarksAuctions getCheckMarks(long id) {
+       List<Integer> ids = auctionRepository.findAllByClientsIn(Collections.singletonList(clientRepository.findByUserId(id))).stream().map(Auction::getId).toList();
+       GetCheckMarksAuctions checkMarksAuctions = new GetCheckMarksAuctions();
+        checkMarksAuctions.setAuctionsId(ids);
+       return checkMarksAuctions;
     }
 }
