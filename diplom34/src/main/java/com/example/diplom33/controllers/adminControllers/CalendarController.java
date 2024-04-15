@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:5173"})
@@ -15,7 +16,6 @@ import java.util.List;
 public class CalendarController {
 
     private final CalendarService calendarService;
-
 
     @PostMapping("/meeting")
     public void createMeeting(@RequestBody Meeting meeting) {
@@ -29,7 +29,11 @@ public class CalendarController {
     }
     @GetMapping("/{year}/{month}")
     public List<GetCalendarDTO> getCalendar(@PathVariable int month, @PathVariable int year){
-        return calendarService.getCalendar(month, year);
+        return calendarService.getCalendar(month, year, null);
+    }
+    @GetMapping("/forClient/{year}/{month}")
+    public List<GetCalendarDTO> getCalendarForClient(@PathVariable int month, @PathVariable int year, Principal principal){
+        return calendarService.getCalendar(month, year, principal);
     }
 
     @GetMapping("/{year}/{month}/{day}")
@@ -42,11 +46,11 @@ public class CalendarController {
         return calendarService.getEvent(id);
     }
 
-
     @PatchMapping("/event/{id}")
     public void updateCalendarEvent(@PathVariable int id, @RequestBody CalendarEvent calendarEvent){
         calendarService.updateEvent(id, calendarEvent);
     }
+    
     @PatchMapping("/meeting/{id}")
     public void updateMeeting(@PathVariable int id, @RequestBody Meeting meeting){
         calendarService.updateMeeting(id, meeting);

@@ -14,4 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
 //    void deleteByTime(LocalDate from);
     void deleteByTimeBefore(LocalDateTime localDateTime);
+
+    List<Event> findByTimeBetweenAndUserId(LocalDateTime atStartOfDay, LocalDateTime atTime, long id );
 }

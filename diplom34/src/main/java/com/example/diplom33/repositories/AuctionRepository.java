@@ -11,4 +11,6 @@ import java.util.List;
 public interface AuctionRepository extends JpaRepository<Auction, Integer> {
 
     List<Auction> findAllByClientsIn(List<Client> clients);
+
+    List<Auction> findAllByClientsId(Long id);
 }

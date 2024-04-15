@@ -1,26 +1,23 @@
 package com.example.diplom33.services;
 
 import com.example.diplom33.dto.GetCalendarDTO;
-import com.example.diplom33.dto.StatusEvent;
 import com.example.diplom33.models.*;
-import com.example.diplom33.repositories.CalendarRepository;
 import com.example.diplom33.repositories.EventRepository;
+import com.example.diplom33.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,24 +26,31 @@ import java.util.stream.Collectors;
 public class CalendarService {
 
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
 
     public void createMeeting(Meeting meeting) {
         eventRepository.save(meeting);
     }
 
+
     public void createCalendarEvent(CalendarEvent calendarEvent) {
          eventRepository.save(calendarEvent);
     }
 
-    public List<GetCalendarDTO> getCalendar(int month, int year) {
+    public List<GetCalendarDTO> getCalendar(int month, int year, Principal principal) {
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
         startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
         endDate = startDate.plusDays(countDays > 35 ? 41 : 34);
+        List<Event> events = new ArrayList<>();
 
-        List<Event> events = eventRepository.findByTimeBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX));
+        if(principal==null){
+            events = eventRepository.findByTimeBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX));
+        }else {
+            events = eventRepository.findByTimeBetweenAndUserId(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX), userRepository.findByPhone(principal.getName()).get().getId());
+        }
 
         List<GetCalendarDTO> calendarData = new ArrayList<>();
 
@@ -121,4 +125,6 @@ public class CalendarService {
     }
 
 
+//    public List<GetCalendarDTO> getCalendarForClient(int month, int year, Principal principal) {
+//    }
 }

@@ -170,7 +170,16 @@ public class AuctionService {
         for (Auction auction: auctions) {
             auction.setClients(Collections.singletonList(client));
         }
+        List<Auction> existingAuctions = auctionRepository.findAllByClientsIn(Collections.singletonList(clientRepository.findByUserId(ids.getUserId())));
 
+
+        for (Auction existingAuction : existingAuctions) {
+            if (!auctions.contains(existingAuction)) {
+                existingAuction.getClients().remove(client);
+            }
+        }
+
+        clientRepository.save(client);
     }
 
     public GetCheckMarksAuctions getCheckMarks(long id) {
