@@ -162,7 +162,11 @@ public class DealService {
         paymentRepository.delete(paymentRepository.findById(id).get());
     }
 
-
+    public List<PaymentDTO> getPaymentForClient(Principal principal) {
+//        List<Payment> payments = paymentRepository.findAllByDealId(id);
+//        return convertToPaymentDTO(payments);
+        return null;
+    }
 
 
 //    private DealDTO convertToDTO(Deal deal) {

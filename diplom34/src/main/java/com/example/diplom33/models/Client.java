@@ -41,7 +41,6 @@ public class Client {
     @JsonIgnore
     private User user;
 
-
     @OneToMany(mappedBy = "client")
     private List<Deal> deals;
 

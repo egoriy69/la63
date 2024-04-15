@@ -1,4 +1,4 @@
-package com.example.diplom33.controllers;
+package com.example.diplom33.controllers.chat;
 
 import com.example.diplom33.chat.ChatMessage;
 import com.example.diplom33.dto.FullNameUserDTO;

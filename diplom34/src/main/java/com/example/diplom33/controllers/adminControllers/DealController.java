@@ -73,6 +73,10 @@ public class DealController {
        return dealService.getPayment(id);
     }
 
+    @GetMapping("/forClient/payment/{id}")
+    public List<PaymentDTO> getPaymentForClient(Principal principal){
+        return dealService.getPaymentForClient(principal);
+    }
     @PostMapping("/payment/new/{id}")
     public void createPayment(@PathVariable int id, @RequestBody PaymentDTO paymentDTO){
         dealService.createPayment(id, paymentDTO);

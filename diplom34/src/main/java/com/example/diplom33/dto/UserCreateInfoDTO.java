@@ -4,12 +4,16 @@ import com.example.diplom33.validations.annotations.UniquePhone;
 import com.example.diplom33.validations.annotations.UniquePhoneUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateInfoDTO {
     @NotBlank(message = "поле не может быть пустым")
     private String firstName;
