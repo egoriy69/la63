@@ -30,8 +30,8 @@ public class Client {
     @Enumerated(EnumType.STRING)
     private ClientStatus status;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "passwordForServices")
+    private String passwordForServices;
 
     @Column(name = "login")
     private String login;

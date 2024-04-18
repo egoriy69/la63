@@ -33,7 +33,7 @@ public class ChatRoom {
 
     private String senderId;
 
-    private String content;
-    private LocalDateTime timestamp;
+//    private String content;
+//    private LocalDateTime timestamp;
 
 }

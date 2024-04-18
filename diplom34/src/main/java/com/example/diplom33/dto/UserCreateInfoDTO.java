@@ -41,7 +41,7 @@ public class UserCreateInfoDTO {
 
     private String status;
 
-    private String password;
+    private String passwordForService;
 
     private String login;
 

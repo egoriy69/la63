@@ -42,7 +42,7 @@ public class UserService {
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             userUpdateInfoDTO.setComment(user.getClient().getComment());
             userUpdateInfoDTO.setStatus(user.getClient().getStatus().name());
-            userUpdateInfoDTO.setPassword(user.getClient().getPassword());
+            userUpdateInfoDTO.setPassword(user.getClient().getPasswordForServices());
             userUpdateInfoDTO.setLogin(user.getClient().getLogin());
         } else {
             userUpdateInfoDTO.setRole(user.getRoles().get(0).getName());
@@ -58,10 +58,10 @@ public class UserService {
         if (existingUser.isPresent() && !existingUser.get().getId().equals(id)) {
             throw new NoSuchException("Пользователь с таким номером телефона уже существует");
         }
-        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
+        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id", "password");
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             Client client = clientRepository.findByUserIdForUpdate(id);
-            BeanUtils.copyProperties(userUpdateInfoDTO, client, "id");
+            BeanUtils.copyProperties(userUpdateInfoDTO, client, "id", "password");
             client.setStatus(ClientStatus.valueOf(userUpdateInfoDTO.getStatus()));
             clientRepository.save(client);
         } else {

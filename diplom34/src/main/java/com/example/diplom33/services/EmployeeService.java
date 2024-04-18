@@ -52,7 +52,7 @@ public class EmployeeService {
             client.setComment(userCreateInfoDTO.getComment());
             client.setStatus(ClientStatus.valueOf(userCreateInfoDTO.getStatus()));
             client.setLogin(userCreateInfoDTO.getLogin());
-            client.setPassword(userCreateInfoDTO.getPassword());
+            client.setPasswordForServices(userCreateInfoDTO.getPasswordForService());
             user.setRoles(List.of(roleRepository.findByName("ROLE_CLIENT").get()));
             userRepository.save(user);
             clientRepository.save(client);
