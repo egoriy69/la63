@@ -4,7 +4,6 @@ import com.example.diplom33.dto.*;
 import com.example.diplom33.models.Auction;
 import com.example.diplom33.services.AuctionService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,17 +45,17 @@ public class AuctionController {
     }
 
     @PutMapping ("/exportAuctionsToExcel")
-    public ResponseEntity<String> exportAuctionsToExcel(@RequestBody List<Integer> auctionId) {
-        try {
+    public ResponseEntity<byte[]> exportAuctionsToExcel(@RequestBody List<Integer> auctionId) throws IOException {
+//        try {
             String filePath = "auctions.xlsx";
 
-            auctionService.exportAuctionsToExcel(auctionId, filePath);
+           return auctionService.exportAuctionsToExcel(auctionId, filePath);
 
-            return new ResponseEntity<>("Auctions exported successfully to " + filePath, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Error exporting auctions: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+//            return new ResponseEntity<>("Auctions exported successfully to " + filePath, HttpStatus.OK);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>("Error exporting auctions: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
     }
 
     @GetMapping("/fullName")
