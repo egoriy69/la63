@@ -74,7 +74,7 @@ public class DealController {
     }
 
     @GetMapping("/forClient/payment")
-    public List<PaymentDTO> getPaymentForClient(Principal principal){
+    public List<PaymentForClientDTO> getPaymentForClient(Principal principal){
         return dealService.getPaymentForClient(principal);
     }
     @PostMapping("/payment/new/{id}")

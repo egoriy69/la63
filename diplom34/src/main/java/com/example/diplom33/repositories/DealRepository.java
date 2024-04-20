@@ -1,5 +1,6 @@
 package com.example.diplom33.repositories;
 
+import com.example.diplom33.models.Client;
 import com.example.diplom33.models.Deal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,8 @@ public interface DealRepository extends JpaRepository<Deal, Integer> {
 
     @Query("SELECT d FROM Deal d LEFT JOIN FETCH d.progressDeals WHERE d.client.id = :clientId")
     List<Deal> findAllByClientIdWithProgress(@Param("clientId") Long clientId);
+
+    int findByClientId(Long client_id);
+
+    List<Deal> findByClient(Client client);
 }
