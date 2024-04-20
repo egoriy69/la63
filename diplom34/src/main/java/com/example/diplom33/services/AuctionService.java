@@ -138,8 +138,8 @@ public class AuctionService {
         File file = new File(filePath);
         byte[] fileContent = Files.readAllBytes(file.toPath());
 
-        // Удаление временного файла после чтения его в байтовый массив
-        file.delete();
+//        // Удаление временного файла после чтения его в байтовый массив
+//        file.delete();
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_OCTET_STREAM);
