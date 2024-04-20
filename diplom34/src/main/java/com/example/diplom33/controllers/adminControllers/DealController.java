@@ -73,7 +73,7 @@ public class DealController {
        return dealService.getPayment(id);
     }
 
-    @GetMapping("/forClient/payment/{id}")
+    @GetMapping("/forClient/payment")
     public List<PaymentDTO> getPaymentForClient(Principal principal){
         return dealService.getPaymentForClient(principal);
     }
