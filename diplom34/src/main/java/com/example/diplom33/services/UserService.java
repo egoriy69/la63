@@ -42,7 +42,7 @@ public class UserService {
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             userUpdateInfoDTO.setComment(user.getClient().getComment());
             userUpdateInfoDTO.setStatus(user.getClient().getStatus().name());
-            userUpdateInfoDTO.setPassword(user.getClient().getPasswordForServices());
+            userUpdateInfoDTO.setPasswordForService(user.getClient().getPasswordForServices());
             userUpdateInfoDTO.setLogin(user.getClient().getLogin());
         } else {
             userUpdateInfoDTO.setRole(user.getRoles().get(0).getName());
@@ -159,7 +159,7 @@ public class UserService {
 
     public void updateInfoForClient(Principal principal, UserUpdateInfoDTO userUpdateInfoDTO) {
         User user = userRepository.findByPhone(principal.getName()).get();
-        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id");
+        BeanUtils.copyProperties(userUpdateInfoDTO, user, "id", "phone");
         userRepository.save(user);
     }
 }
