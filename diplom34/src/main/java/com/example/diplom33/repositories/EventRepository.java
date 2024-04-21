@@ -10,6 +10,8 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByTimeBetween(LocalDateTime atStartOfDay, LocalDateTime atTime);
 
+    List<Event> findByTimeBetweenAndAndUserId(LocalDateTime atStartOfDay, LocalDateTime atTime, long id);
+
     List<Event> findByTime(LocalDateTime date);
 
 //    void deleteByTime(LocalDate from);

@@ -18,8 +18,8 @@ public class CalendarController {
     private final CalendarService calendarService;
 
     @PostMapping("/meeting")
-    public void createMeeting(@RequestBody Meeting meeting) {
-        calendarService.createMeeting(meeting);
+    public void createMeeting(@RequestBody Meeting meeting, Principal principal) {
+        calendarService.createMeeting(meeting, principal);
     }
 
     @PostMapping("/event")
@@ -40,6 +40,12 @@ public class CalendarController {
     public List<Event> getDay(@PathVariable int month, @PathVariable int year, @PathVariable int day){
         return calendarService.getOneDay(month, year, day);
     }
+
+    @GetMapping("forClient/{year}/{month}/{day}")
+    public List<Event> getDayForClient(@PathVariable int month, @PathVariable int year, @PathVariable int day, Principal principal){
+        return calendarService.getOneDayForClient(month, year, day, principal);
+    }
+
 
     @GetMapping("/{id}")
     public Event getEvent(@PathVariable int id){

@@ -28,7 +28,8 @@ public class CalendarService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
-    public void createMeeting(Meeting meeting) {
+    public void createMeeting(Meeting meeting, Principal principal) {
+        meeting.setUserId(userRepository.findByPhone(principal.getName()).get().getId());
         eventRepository.save(meeting);
     }
 
@@ -122,6 +123,11 @@ public class CalendarService {
         LocalDateTime currentDate = LocalDateTime.now();
         LocalDateTime threeMonthsAgo = currentDate.minusMonths(3).minusDays(currentDate.getDayOfMonth());
         eventRepository.deleteByTimeBefore(LocalDateTime.from(threeMonthsAgo));
+    }
+
+    public List<Event> getOneDayForClient(int month, int year, int day, Principal principal) {
+        LocalDate date = LocalDate.of(year, month, day);
+        return eventRepository.findByTimeBetweenAndAndUserId(date.atStartOfDay(), date.atTime(LocalTime.MAX), userRepository.findByPhone(principal.getName()).get().getId());
     }
 
 

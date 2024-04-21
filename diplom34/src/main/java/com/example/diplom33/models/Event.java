@@ -35,5 +35,4 @@ public abstract class Event {
 //    private Client client;
 
     private Long userId;
-    // Общие методы и поля для всех событий
 }
