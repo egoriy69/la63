@@ -28,7 +28,7 @@ public class UserUpdateInfoDTO {
 
     private LocalDate birth;
 
-    @NotBlank(message = "поле не может быть пустым")
+//    @NotBlank(message = "поле не может быть пустым")
 //    @UniquePhoneUpdate
     private String phone;
 
