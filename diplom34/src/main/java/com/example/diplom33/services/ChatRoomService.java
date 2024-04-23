@@ -45,11 +45,6 @@ public class ChatRoomService {
 
     public void createRoom(ChatRoom chatRoom, Principal principal) {
         User creator = userRepository.findByPhone(principal.getName()).get();
-
-        // Создать новую беседу
-//        ChatRoom chatRoom = new ChatRoom();
-//        chatRoom.setParticipants(roomDto.getParticipants());
-//        chatRoom.setSenderId(creator.getId());
         chatRoomRepository.save(chatRoom);
     }
 

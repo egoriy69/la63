@@ -35,10 +35,12 @@ public class AuthService {
         if (!registrationUser.getPassword().equals(registrationUser.getConfirmPassword())) {
             throw new NoSuchException("Пароли не совпадают");
         }
+
        User user = userRepository.findByPhone(registrationUser.getPhone()).orElseThrow(() -> new UsernameNotFoundException("пользователь '%s' не найден"));
 
         user.setPhone(registrationUser.getPhone());
         user.setEmail(registrationUser.getEmail());
+
         user.setPassword(passwordEncoder.encode(registrationUser.getPassword()));
 
         userRepository.save(user);

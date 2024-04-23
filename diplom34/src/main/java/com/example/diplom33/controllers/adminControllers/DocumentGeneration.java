@@ -16,12 +16,6 @@ import java.util.HashMap;
 public class DocumentGeneration {
 
     private final DocumentGenerationService documentGenerationService;
-
-//    @GetMapping("/{id}")
-//    public void document(@PathVariable long id) throws IOException {
-//        documentGenerationService.documentGeneration(id);
-//
-//    }
     @GetMapping("/{id}")
    public ResponseEntity<byte[]> document(@PathVariable long id) throws IOException {
         return documentGenerationService.generateDocument(id);

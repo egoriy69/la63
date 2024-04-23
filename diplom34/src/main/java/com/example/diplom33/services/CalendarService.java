@@ -39,18 +39,24 @@ public class CalendarService {
     }
 
     public List<GetCalendarDTO> getCalendar(int month, int year, Principal principal) {
+
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = startDate.plusMonths(1).minusDays(1);
         DayOfWeek dayOfWeek = LocalDate.of(year, month, 1).getDayOfWeek();
         startDate = startDate.minusDays(dayOfWeek.getValue() - 1);
         int countDays = dayOfWeek.getValue() + endDate.getDayOfMonth() - 1;
         endDate = startDate.plusDays(countDays > 35 ? 41 : 34);
+
         List<Event> events = new ArrayList<>();
 
         if(principal==null){
             events = eventRepository.findByTimeBetween(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX));
         }else {
-            events = eventRepository.findByTimeBetweenAndUserId(startDate.atStartOfDay(), endDate.atTime(LocalTime.MAX), userRepository.findByPhone(principal.getName()).get().getId());
+
+            events = eventRepository.findByTimeBetweenAndUserId(startDate.atStartOfDay(),
+                    endDate.atTime(LocalTime.MAX),
+                    userRepository.findByPhone(principal.getName()).get().getId());
+
         }
 
         List<GetCalendarDTO> calendarData = new ArrayList<>();
@@ -129,8 +135,4 @@ public class CalendarService {
         LocalDate date = LocalDate.of(year, month, day);
         return eventRepository.findByTimeBetweenAndAndUserId(date.atStartOfDay(), date.atTime(LocalTime.MAX), userRepository.findByPhone(principal.getName()).get().getId());
     }
-
-
-//    public List<GetCalendarDTO> getCalendarForClient(int month, int year, Principal principal) {
-//    }
 }

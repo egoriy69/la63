@@ -44,14 +44,18 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody JwtRequest jwtRequest) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getPhone(), jwtRequest.getPassword()));
+
+            authenticationManager.authenticate(new
+                    UsernamePasswordAuthenticationToken
+                    (jwtRequest.getPhone(),
+                            jwtRequest.getPassword()));
+
         } catch (BadCredentialsException e) {
 
             throw new NoSuchException("Неправильный логин или пароль");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getPhone());
         UserWithRoleDTO userWithRoleDTO = userService.getUserWithRoleSign(userDetails);
-//        userService.saveUser(userDetails.getUsername());
 
 
         return ResponseEntity.ok(JwtResponse.builder()
@@ -82,7 +86,10 @@ public class AuthController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    String token = jwtUtil.generateToken(userDetailsService.loadUserByUsername(user.getPhone()));
+
+                    String token = jwtUtil.generateToken
+                            (userDetailsService.loadUserByUsername(user.getPhone()));
+
                     return JwtResponse.builder()
                             .token(token)
                             .refreshToken(refreshTokenRequest.getRefreshToken())

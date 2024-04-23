@@ -26,25 +26,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByPhone(String phone);
 
-
     List<User> findByClientStatus(ClientStatus clientStatus, Pageable pageable);
 
     @Query("SELECT new com.example.diplom33.dto.FullNameUserDTO(c.user.id, u.firstName, u.lastName, u.patronymic) FROM Client c JOIN c.user u")
     List<FullNameUserDTO> findAllFullNameUserDTO();
-
-
-
-    //    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select u from User u where u.id = ?1")
     User findByIdForUpdate(Long id);
 
-//    List<UserDTO> findByRole(String roleName);
-
-
     @Query("SELECT new com.example.diplom33.dto.UserDTO(u.id, u.phone, u.email, u.firstName, u.lastName, u.patronymic) FROM User u JOIN u.roles r WHERE r.name = :roleName")
     List<UserDTO> findByRole(@Param("roleName") String roleName, PageRequest of);
-
-//    List<UserDTO> findByFirstNameContainingAndLastNameContainingAndPatronymicContaining(String name, String name1, String name2, Pageable paging);
 
     List<User> findByFirstNameContainingOrLastNameContainingOrPatronymicContaining(String name, String name1, String name2, Pageable paging);
 

@@ -87,8 +87,6 @@ public class AuctionService {
             Cell cell = headerRow.createCell(i);
             cell.setCellValue(headers[i]);
         }
-
-        // Fill data
         int rowNum = 1;
         for (Auction auction : auctions) {
             Row row = sheet.createRow(rowNum++);
@@ -138,8 +136,6 @@ public class AuctionService {
         File file = new File(filePath);
         byte[] fileContent = Files.readAllBytes(file.toPath());
 
-//        // Удаление временного файла после чтения его в байтовый массив
-//        file.delete();
 
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_OCTET_STREAM);

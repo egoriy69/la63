@@ -21,11 +21,13 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken createRefreshToken(String phone){
+
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(userRepository.findByPhone(phone).get())
                 .token(UUID.randomUUID().toString())
                 .expiryDate(Instant.now().plusMillis(100000000)).build();
         return  refreshTokenRepository.save(refreshToken);
+
     }
 
     public Optional<RefreshToken> findByToken(String token){
@@ -34,11 +36,12 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken verifyExpiration(RefreshToken refreshToken){
+
         if(refreshToken.getExpiryDate().compareTo(Instant.now())<0){
             refreshTokenRepository.delete(refreshToken);
-//                throw new RuntimeException(refreshToken.getToken() + "Срок токена истек. Нужна повторная авторизация");
             return null;
         }
+
         return refreshToken;
     }
 }

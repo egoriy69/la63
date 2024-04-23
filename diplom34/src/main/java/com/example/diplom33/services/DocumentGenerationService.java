@@ -31,6 +31,7 @@ public class DocumentGenerationService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
         XWPFTemplate template = XWPFTemplate.compile("generate.docx");
+
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         template.render(new HashMap<String, Object>() {{
@@ -52,31 +53,12 @@ public class DocumentGenerationService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("filename", "dogovor_s_ip" + System.currentTimeMillis() + ".docx");
+        headers.setContentDispositionFormData("filename",
+                "dogovor_s_ip" + System.currentTimeMillis() + ".docx");
 
         return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
 
-//    public void documentGeneration(long id) throws IOException {
-//        User user = userRepository.findById(id).get();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-//
-//        XWPFTemplate.compile("generate.docx").render(new HashMap<String, Object>(){{
-//            put("FIO", user.getFullName().toUpperCase(Locale.ROOT));
-//
-//            put("SNILS", user.getSnils());
-//
-//            put("BIRTH", user.getBirth().format(formatter));
-//
-//            put("CITY", user.getPlaceOfBirth());
-//            put("PASSPORT", user.getPassport());
-//            put("PASSPORTISSUED", user.getPassportIssued());
-//            put("DATEISSUEPASSPORT", user.getDateIssuePassport().format(formatter));
-//            put("KP", user.getKp());
-//
-//            put("REGISTRATIONADDRESS", user.getRegistrationAddress());
-//            put("DATE", LocalDate.now().format(formatter));
-//
-//        }}).writeToFile("dogovor_s_ip"+System.currentTimeMillis()+".docx");
-//    }
     }
 }
+
+

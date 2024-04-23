@@ -46,16 +46,10 @@ public class AuctionController {
 
     @PutMapping ("/exportAuctionsToExcel")
     public ResponseEntity<byte[]> exportAuctionsToExcel(@RequestBody List<Integer> auctionId) throws IOException {
-//        try {
+
             String filePath = "auctions.xlsx";
 
            return auctionService.exportAuctionsToExcel(auctionId, filePath);
-
-//            return new ResponseEntity<>("Auctions exported successfully to " + filePath, HttpStatus.OK);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>("Error exporting auctions: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
     }
 
     @GetMapping("/fullName")

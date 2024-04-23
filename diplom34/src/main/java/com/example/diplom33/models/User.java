@@ -71,9 +71,6 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Client client;
 
-//    @OneToOne(mappedBy = "user")
-//    private Passport passportInfo;
-
     @OneToOne(mappedBy = "user")
     private Employee employee;
 
