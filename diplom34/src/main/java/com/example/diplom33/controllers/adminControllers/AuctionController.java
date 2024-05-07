@@ -72,3 +72,4 @@ public class AuctionController {
         auctionService.addClient(auctionForAddClientDTO);
     }
 }
+////
