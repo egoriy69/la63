@@ -26,7 +26,7 @@ public class ClientService {
 
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
-
+//
     public Optional<List<UserDTO>> getAllClient(String status, int offset, int pageSize, String fullName) {
         Pageable paging = PageRequest.of(offset, pageSize);
         List<UserDTO> userDTOS = new ArrayList<>();
