@@ -62,6 +62,7 @@ public class UserService {
         if (Objects.equals(user.getRoles().get(0).getName(), "ROLE_CLIENT")) {
             Client client = clientRepository.findByUserIdForUpdate(id);
             BeanUtils.copyProperties(userUpdateInfoDTO, client, "id", "password");
+            client.setPasswordForServices(userUpdateInfoDTO.getPasswordForService());
             client.setStatus(ClientStatus.valueOf(userUpdateInfoDTO.getStatus()));
             clientRepository.save(client);
         } else {
